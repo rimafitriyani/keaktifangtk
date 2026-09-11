@@ -1,0 +1,1721 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FORM PENGUMPULAN DATA KEAKTIFAN GURU DAN TENAGA KEPENDIDIKAN DALAM KEGIATAN PENGEMBANGAN KOMPETENSI BESERTA BUKTI PENDUKUNG</title>
+
+  <style>
+    :root{
+      --primary:#2157d6;
+      --primary-dark:#1746b0;
+      --success:#078653;
+      --danger:#c83232;
+      --warning:#b56a00;
+      --ink:#172033;
+      --muted:#697386;
+      --line:#dde4ee;
+      --soft:#f5f8fd;
+      --card:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:linear-gradient(140deg,#eef4ff,#f8fafc 52%,#effaf5);
+      color:var(--ink);
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      font-size:16px;
+      line-height:1.55;
+    }
+
+    .wrap{
+      max-width:1080px;
+      margin:auto;
+      padding:24px 16px 56px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#173b99,#2867ed);
+      color:#fff;
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 16px 38px rgba(30,60,120,.18);
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(28px,4vw,40px);
+      line-height:1.2;
+    }
+
+    .hero p{
+      margin:0;
+      line-height:1.6;
+      opacity:.96;
+      font-size:16px;
+    }
+
+    .pj{
+      margin-top:14px;
+      padding-top:13px;
+      border-top:1px solid rgba(255,255,255,.25);
+      font-weight:750;
+    }
+
+    .card{
+      background:var(--card);
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 10px 30px rgba(40,60,90,.08);
+    }
+
+    h2{
+      margin:0 0 18px;
+      font-size:23px;
+      line-height:1.3;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+    }
+
+    .c12{grid-column:span 12}
+    .c8{grid-column:span 8}
+    .c6{grid-column:span 6}
+    .c4{grid-column:span 4}
+    .c3{grid-column:span 3}
+
+    label{
+      display:block;
+      font-size:15px;
+      font-weight:750;
+      margin-bottom:8px;
+      line-height:1.4;
+    }
+
+    .req:after{
+      content:" *";
+      color:#d21d2c;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid #cad4e2;
+      border-radius:12px;
+      background:#fff;
+      font:inherit;
+      font-size:15px;
+      outline:none;
+      color:var(--ink);
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:#6e98fa;
+      box-shadow:0 0 0 4px rgba(33,87,214,.10);
+    }
+
+    input[readonly]{
+      background:#f3f6fa;
+      color:#39465e;
+      font-weight:700;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .section{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:850;
+      margin:24px 0 14px;
+      font-size:18px;
+    }
+
+    .num{
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:#edf3ff;
+      color:var(--primary);
+      display:grid;
+      place-items:center;
+      font-size:14px;
+      flex:0 0 auto;
+    }
+
+    .tabs{
+      display:flex;
+      gap:9px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .tab{
+      border:1px solid var(--line);
+      background:#fff;
+      padding:11px 17px;
+      border-radius:999px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:15px;
+    }
+
+    .tab.active{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+
+    .subchoice{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin:4px 0 16px;
+    }
+
+    .choice{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:15px;
+      cursor:pointer;
+      background:#fff;
+      transition:.15s;
+    }
+
+    .choice:hover{
+      border-color:#9db8f7;
+    }
+
+    .choice.active{
+      border:2px solid var(--primary);
+      background:#f3f7ff;
+    }
+
+    .choice b{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+    }
+
+    .choice small{
+      color:var(--muted);
+      line-height:1.5;
+      font-size:13px;
+    }
+
+    .panel{
+      border:1px solid #dfe6f2;
+      background:#fbfcff;
+      border-radius:16px;
+      padding:16px;
+      margin-top:8px;
+    }
+
+    .panelTitle{
+      font-weight:850;
+      margin-bottom:14px;
+      color:#24416f;
+      font-size:17px;
+    }
+
+    .upload{
+      border:1.5px dashed #b9c5d8;
+      background:#fbfcfe;
+      padding:14px;
+      border-radius:14px;
+    }
+
+    .upload small{
+      display:block;
+      color:var(--muted);
+      line-height:1.5;
+      margin-top:8px;
+      font-size:13px;
+    }
+
+    .hintbox{
+      background:#f3f7ff;
+      border-left:4px solid var(--primary);
+      padding:12px 14px;
+      border-radius:10px;
+      color:#46546a;
+      font-size:14px;
+      line-height:1.55;
+      margin-bottom:14px;
+    }
+
+    .hidden{
+      display:none!important;
+    }
+
+    .btn{
+      margin-top:20px;
+      border:0;
+      border-radius:12px;
+      padding:13px 18px;
+      background:var(--primary);
+      color:#fff;
+      font-weight:850;
+      cursor:pointer;
+      font-size:16px;
+    }
+
+    .btn:hover{background:var(--primary-dark)}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+
+    .message{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:12px;
+      display:none;
+      line-height:1.5;
+    }
+
+    .message.ok{
+      display:block;
+      background:#eaf8f1;
+      color:#08693f;
+      border:1px solid #bfe8d3;
+    }
+
+    .message.err{
+      display:block;
+      background:#fff0f0;
+      color:#a12121;
+      border:1px solid #f1c4c4;
+    }
+
+    .message.wait{
+      display:block;
+      background:#eef4ff;
+      color:#214fba;
+      border:1px solid #cbdafe;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+    }
+
+    .stat{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:15px;
+      background:#fff;
+    }
+
+    .stat b{
+      font-size:26px;
+      display:block;
+    }
+
+    .stat span{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .metricPrimary{
+      border:1.5px solid #b9cdfc;
+      background:#f5f8ff;
+    }
+
+    .metricPrimary b{
+      font-size:28px;
+      color:var(--primary);
+      line-height:1.25;
+    }
+
+    .metricPrimary small{
+      display:block;
+      margin-top:5px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    .tablewrap{
+      margin-top:15px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:13px;
+    }
+
+    table{
+      border-collapse:collapse;
+      width:100%;
+      min-width:780px;
+    }
+
+    th,td{
+      padding:11px;
+      border-bottom:1px solid #edf0f5;
+      text-align:left;
+      font-size:14px;
+      vertical-align:top;
+    }
+
+    th{
+      background:#f7f9fc;
+      font-size:13px;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:5px 8px;
+      background:#edf3ff;
+      color:#1d4db8;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .good{
+      color:var(--success);
+      font-weight:800;
+    }
+
+    .bad{
+      color:var(--warning);
+      font-weight:800;
+    }
+
+    @media(max-width:760px){
+      .c8,.c6,.c4,.c3{grid-column:span 12}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .subchoice{grid-template-columns:1fr}
+      .hero{padding:22px}
+      .card{padding:18px}
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <h1>FORM PENGUMPULAN DATA KEAKTIFAN GURU DAN TENAGA KEPENDIDIKAN DALAM KEGIATAN PENGEMBANGAN KOMPETENSI BESERTA BUKTI PENDUKUNG</h1>
+    <div class="pj">Penanggung Jawab : Rima Fitriyani, S.Pd.</div>
+  </section>
+
+  <form id="formGtk" class="card">
+    <h2>Form Pengumpulan Data</h2>
+
+    <div class="section">
+      <span class="num">1</span>
+      Identitas Madrasah dan Tahun Pelajaran
+    </div>
+
+    <div class="grid">
+      <div class="c6">
+        <label>Nama Madrasah</label>
+        <input value="MTs Negeri Kota Jayapura" readonly>
+      </div>
+
+      <div class="c6">
+        <label class="req">Tahun Pelajaran</label>
+        <select name="tahunPelajaran" required>
+          <option value="">Pilih Tahun Pelajaran</option>
+          <option>Semester Genap TA. 2025-2026</option>
+          <option>Semester Ganjil TA. 2026-2027</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <span class="num">2</span>
+      Kategori dan Identitas Peserta
+    </div>
+
+    <div class="tabs">
+      <button
+        class="tab active"
+        type="button"
+        data-type="Guru"
+        onclick="setKategoriPeserta('Guru')">
+        Guru
+      </button>
+
+      <button
+        class="tab"
+        type="button"
+        data-type="Tenaga Kependidikan"
+        onclick="setKategoriPeserta('Tenaga Kependidikan')">
+        Tenaga Kependidikan
+      </button>
+    </div>
+
+    <input
+      type="hidden"
+      name="kategoriPeserta"
+      id="kategoriPeserta"
+      value="Guru">
+
+    <div id="pilihanGuru">
+      <label class="req">Kategori Kegiatan Guru</label>
+
+      <div class="subchoice">
+        <div
+          class="choice active"
+          id="choiceMgmp"
+          onclick="setKategoriKegiatan('MGMP')">
+
+          <b>1. Kegiatan MGMP</b>
+          <small>
+            Untuk merekap keaktifan guru dalam kegiatan MGMP selama semester berjalan.
+          </small>
+        </div>
+
+        <div
+          class="choice"
+          id="choicePelatihan"
+          onclick="setKategoriKegiatan('Pelatihan/Workshop/Bimtek dan Sejenisnya')">
+
+          <b>2. Pelatihan / Workshop / Bimtek</b>
+          <small>
+            Termasuk seminar, webinar, dan kegiatan peningkatan kompetensi sejenis.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <input
+      type="hidden"
+      name="kategoriKegiatan"
+      id="kategoriKegiatan"
+      value="MGMP">
+
+    <div class="grid">
+      <div class="c6">
+        <label class="req">Nama Lengkap dan Gelar</label>
+        <input
+          name="namaLengkap"
+          placeholder="Contoh: Ahmad Fulan, S.Pd."
+          required>
+      </div>
+
+      <div class="c3">
+        <label>NIP</label>
+        <input
+          name="nip"
+          placeholder="Kosongkan jika non-ASN">
+      </div>
+
+      <div class="c3">
+        <label id="labelPeran">Mata Pelajaran</label>
+        <input
+          name="mapelJabatan"
+          id="mapelJabatan"
+          placeholder="Contoh: Matematika">
+      </div>
+    </div>
+
+    <!-- =====================================================
+         MGMP GURU
+    ====================================================== -->
+    <div id="formMgmp">
+
+      <div class="section">
+        <span class="num">3</span>
+        Data MGMP
+      </div>
+
+      <div class="panel">
+        <div class="panelTitle">Data khusus kegiatan MGMP</div>
+
+        <div class="grid">
+          <div class="c8">
+            <label class="req">Nama MGMP</label>
+            <input
+              id="namaMgmp"
+              name="namaMgmp"
+              placeholder="Contoh: MGMP Matematika MTs Kota Jayapura">
+          </div>
+
+          <div class="c4">
+            <label>Tempat / Lokasi MGMP</label>
+            <input
+              id="lokasiMgmp"
+              name="lokasiMgmp"
+              placeholder="Opsional">
+          </div>
+
+          <div class="c6">
+            <label class="req">Status Keaktifan</label>
+            <select
+              id="statusKeaktifanMgmp"
+              name="statusKeaktifanMgmp">
+              <option value="">Pilih Status Keaktifan</option>
+              <option>Pengurus</option>
+              <option>Anggota</option>
+            </select>
+          </div>
+
+          <div class="c6">
+            <label class="req">
+              Persentase Kehadiran dalam Pertemuan 1 Semester
+            </label>
+
+            <div style="position:relative">
+              <input
+                id="persentaseKehadiranMgmp"
+                name="persentaseKehadiranMgmp"
+                type="number"
+                min="0"
+                max="100"
+                step="0.01"
+                placeholder="Contoh: 85"
+                style="padding-right:44px">
+
+              <span
+                style="position:absolute;right:14px;top:50%;transform:translateY(-50%);
+                font-weight:800;color:#697386">
+                %
+              </span>
+            </div>
+
+            <small style="display:block;color:#697386;margin-top:6px">
+              Isi angka 0–100 berdasarkan jumlah kehadiran selama semester berjalan.
+            </small>
+          </div>
+
+          <div class="c12">
+            <label>Catatan</label>
+            <textarea
+              id="catatanMgmp"
+              name="catatan"
+              placeholder="Catatan tambahan bila diperlukan"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="num">4</span>
+        Bukti Dukung MGMP
+      </div>
+
+      <div class="hintbox">
+        Daftar hadir MGMP wajib diunggah. Bukti tambahan seperti surat undangan,
+        surat tugas, atau dokumentasi dapat ditambahkan bila tersedia.
+        Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+      </div>
+
+      <div class="grid">
+        <div class="c6 upload">
+          <label class="req">Daftar Hadir MGMP</label>
+
+          <input
+            id="fileMgmp"
+            name="daftarHadirMgmp"
+            type="file"
+            accept="application/pdf,.pdf"
+            required>
+
+          <small>
+            Unggah rekap/daftar hadir MGMP selama semester berjalan.
+            PDF maksimal 2 MB.
+          </small>
+        </div>
+
+        <div class="c6 upload">
+          <label>
+            Bukti Tambahan MGMP
+            <span style="font-weight:400;color:#697386">(Opsional)</span>
+          </label>
+
+          <input
+            id="fileTambahanMgmp"
+            name="buktiTambahanMgmp"
+            type="file"
+            accept="application/pdf,.pdf">
+
+          <small>
+            Contoh: surat undangan, surat tugas, dokumentasi kegiatan,
+            atau bukti pendukung lainnya. PDF maksimal 2 MB.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================
+         PELATIHAN / WORKSHOP / BIMTEK
+    ====================================================== -->
+    <div id="formPelatihan" class="hidden">
+
+      <div class="section">
+        <span class="num">3</span>
+        Data Pelatihan / Workshop / Bimtek
+      </div>
+
+      <div class="panel">
+        <div class="panelTitle">Data kegiatan pengembangan kompetensi</div>
+
+        <div class="grid">
+          <div class="c4">
+            <label class="req">Jenis Kegiatan</label>
+
+            <select
+              name="jenisKegiatan"
+              id="jenisKegiatan">
+
+              <option value="">Pilih Jenis Kegiatan</option>
+              <option>Pelatihan</option>
+              <option>Workshop</option>
+              <option>Bimtek</option>
+              <option>Seminar</option>
+              <option>Webinar</option>
+              <option>Kegiatan Sejenis Lainnya</option>
+            </select>
+          </div>
+
+          <div class="c8">
+            <label class="req">Nama / Judul Kegiatan</label>
+            <input
+              name="namaKegiatan"
+              id="namaKegiatan">
+          </div>
+
+          <div class="c6">
+            <label class="req">Penyelenggara</label>
+            <input
+              name="penyelenggara"
+              id="penyelenggara">
+          </div>
+
+          <div class="c3">
+            <label class="req">Moda</label>
+
+            <select
+              name="moda"
+              id="moda">
+              <option value="">Pilih</option>
+              <option>Daring</option>
+              <option>Luring</option>
+              <option>Blended / Hybrid</option>
+            </select>
+          </div>
+
+          <div class="c3">
+            <label>Jumlah JP / Jam</label>
+            <input
+              name="jumlahJam"
+              type="number"
+              min="0">
+          </div>
+
+          <div class="c3">
+            <label class="req">Tanggal Mulai</label>
+            <input
+              name="tanggalMulai"
+              id="tanggalMulai"
+              type="date">
+          </div>
+
+          <div class="c3">
+            <label>Tanggal Selesai</label>
+            <input
+              name="tanggalSelesai"
+              type="date">
+          </div>
+
+          <div class="c6">
+            <label>Lokasi / Platform</label>
+            <input
+              name="lokasi"
+              placeholder="Aula / Zoom / LMS / lainnya">
+          </div>
+
+          <div class="c12">
+            <label>Catatan</label>
+            <textarea
+              name="catatanPelatihan"
+              id="catatanPelatihan"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- GURU -->
+      <div id="buktiPelatihanGuru">
+
+        <div class="section">
+          <span class="num">4</span>
+          Bukti Dukung Pelatihan Guru
+        </div>
+
+        <div class="hintbox">
+          Unggah bukti keaktifan dan sertifikat.
+          Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+        </div>
+
+        <div class="grid">
+          <div class="c6 upload">
+            <label class="req">Bukti Keaktifan</label>
+
+            <input
+              id="fileKeaktifanGuru"
+              name="buktiKeaktifanGuru"
+              type="file"
+              accept="application/pdf,.pdf">
+
+            <small>
+              Surat tugas, dokumentasi, daftar peserta, tangkapan layar,
+              atau bukti lain yang telah dijadikan PDF. Maksimal 2 MB.
+            </small>
+          </div>
+
+          <div class="c6 upload">
+            <label class="req">Sertifikat</label>
+
+            <input
+              id="fileSertifikatGuru"
+              name="sertifikatGuru"
+              type="file"
+              accept="application/pdf,.pdf">
+
+            <small>PDF maksimal 2 MB.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- TENDIK -->
+      <div id="buktiTendik" class="hidden">
+
+        <div class="section">
+          <span class="num">4</span>
+          Bukti Dukung Pelatihan Tenaga Kependidikan
+        </div>
+
+        <div class="hintbox">
+          Unggah undangan/surat penyelenggara dan sertifikat keikutsertaan.
+          Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+        </div>
+
+        <div class="grid">
+          <div class="c6 upload">
+            <label class="req">Undangan / Surat Penyelenggara</label>
+
+            <input
+              id="fileUndanganTendik"
+              name="undanganTendik"
+              type="file"
+              accept="application/pdf,.pdf">
+
+            <small>PDF maksimal 2 MB.</small>
+          </div>
+
+          <div class="c6 upload">
+            <label class="req">Sertifikat Keikutsertaan</label>
+
+            <input
+              id="fileSertifikatTendik"
+              name="sertifikatTendik"
+              type="file"
+              accept="application/pdf,.pdf">
+
+            <small>PDF maksimal 2 MB.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="btn"
+      id="submitBtn"
+      type="submit">
+      Kirim & Simpan Data
+    </button>
+
+    <div id="message" class="message"></div>
+  </form>
+
+  <!-- =====================================================
+       DASHBOARD RINGKAS
+  ====================================================== -->
+  <section class="card">
+    <h2>Ringkasan Data</h2>
+
+    <div class="stats">
+      <div class="stat">
+        <b id="sTotal">-</b>
+        <span>Total Data</span>
+      </div>
+
+      <div class="stat">
+        <b id="sMgmp">-</b>
+        <span>MGMP Guru</span>
+      </div>
+
+      <div class="stat">
+        <b id="sPelatihan">-</b>
+        <span>Pelatihan Guru</span>
+      </div>
+
+      <div class="stat">
+        <b id="sTendik">-</b>
+        <span>Pelatihan Tendik</span>
+      </div>
+
+      <div class="stat metricPrimary">
+        <b id="sGuruAktif">-</b>
+        <span>Guru Aktif Pengembangan Kompetensi</span>
+        <small id="sGuruAktifDetail">Dari 40 guru</small>
+      </div>
+
+      <div class="stat metricPrimary">
+        <b id="sTendikAktif">-</b>
+        <span>Tendik Aktif Pengembangan Kompetensi</span>
+        <small id="sTendikAktifDetail">Dari 8 tenaga kependidikan</small>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  /**
+   * ==========================================================
+   * KONFIGURASI GITHUB PAGES -> GOOGLE APPS SCRIPT
+   * ==========================================================
+   *
+   * Setelah Code.gs di-deploy sebagai Web App, tempel URL /exec
+   * pada BACKEND_URL di bawah ini.
+   *
+   * Contoh:
+   * https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
+   */
+  const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwh362_2dc3FnO8comQuP0aVwiQNl74y-SDoJm1eMX_gMS2mXicknwsUZg7qdGPI4vjrQ/exec';
+
+  const form = document.getElementById('formGtk');
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('message');
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
+  const SUBMIT_TIMEOUT_MS = 120000;
+  const DASHBOARD_TIMEOUT_MS = 20000;
+
+  let pendingSubmission = null;
+
+  function setKategoriPeserta(type){
+    document.getElementById('kategoriPeserta').value = type;
+
+    document.querySelectorAll('.tab').forEach(button => {
+      button.classList.toggle(
+        'active',
+        button.dataset.type === type
+      );
+    });
+
+    const isGuru = type === 'Guru';
+
+    document
+      .getElementById('pilihanGuru')
+      .classList.toggle('hidden', !isGuru);
+
+    document.getElementById('labelPeran').textContent =
+      isGuru ? 'Mata Pelajaran' : 'Jabatan';
+
+    document.getElementById('mapelJabatan').placeholder =
+      isGuru
+        ? 'Contoh: Matematika'
+        : 'Contoh: Operator / Tata Usaha';
+
+    if(isGuru){
+      const current =
+        document.getElementById('kategoriKegiatan').value;
+
+      setKategoriKegiatan(
+        current === 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
+          ? 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
+          : 'MGMP'
+      );
+    }else{
+      document.getElementById('kategoriKegiatan').value =
+        'Pelatihan/Workshop/Bimtek dan Sejenisnya';
+
+      document.getElementById('formMgmp')
+        .classList.add('hidden');
+
+      document.getElementById('formPelatihan')
+        .classList.remove('hidden');
+
+      document.getElementById('buktiPelatihanGuru')
+        .classList.add('hidden');
+
+      document.getElementById('buktiTendik')
+        .classList.remove('hidden');
+
+      setRequirements('tendik');
+
+      clearFiles([
+        'fileMgmp',
+        'fileTambahanMgmp',
+        'fileKeaktifanGuru',
+        'fileSertifikatGuru'
+      ]);
+    }
+  }
+
+  function setKategoriKegiatan(type){
+    document.getElementById('kategoriKegiatan').value = type;
+
+    const isMgmp = type === 'MGMP';
+
+    document.getElementById('choiceMgmp')
+      .classList.toggle('active', isMgmp);
+
+    document.getElementById('choicePelatihan')
+      .classList.toggle('active', !isMgmp);
+
+    document.getElementById('formMgmp')
+      .classList.toggle('hidden', !isMgmp);
+
+    document.getElementById('formPelatihan')
+      .classList.toggle('hidden', isMgmp);
+
+    document.getElementById('buktiPelatihanGuru')
+      .classList.toggle('hidden', isMgmp);
+
+    document.getElementById('buktiTendik')
+      .classList.add('hidden');
+
+    setRequirements(isMgmp ? 'mgmp' : 'pelatihan');
+
+    if(isMgmp){
+      clearFiles([
+        'fileKeaktifanGuru',
+        'fileSertifikatGuru',
+        'fileUndanganTendik',
+        'fileSertifikatTendik'
+      ]);
+    }else{
+      clearFiles([
+        'fileMgmp',
+        'fileTambahanMgmp'
+      ]);
+    }
+  }
+
+  function setRequirements(mode){
+    document.getElementById('fileMgmp').required =
+      mode === 'mgmp';
+
+    document.getElementById('namaMgmp').required =
+      mode === 'mgmp';
+
+    document.getElementById('statusKeaktifanMgmp').required =
+      mode === 'mgmp';
+
+    document.getElementById('persentaseKehadiranMgmp').required =
+      mode === 'mgmp';
+
+    [
+      'jenisKegiatan',
+      'namaKegiatan',
+      'penyelenggara',
+      'moda',
+      'tanggalMulai'
+    ].forEach(id => {
+      document.getElementById(id).required =
+        mode !== 'mgmp';
+    });
+
+    document.getElementById('fileKeaktifanGuru').required =
+      mode === 'pelatihan';
+
+    document.getElementById('fileSertifikatGuru').required =
+      mode === 'pelatihan';
+
+    document.getElementById('fileUndanganTendik').required =
+      mode === 'tendik';
+
+    document.getElementById('fileSertifikatTendik').required =
+      mode === 'tendik';
+  }
+
+  function clearFiles(ids){
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = '';
+    });
+  }
+
+  function validateUploadedFiles(){
+    const fileInputs =
+      form.querySelectorAll('input[type="file"]');
+
+    for(const input of fileInputs){
+      if(!input.files || !input.files.length){
+        continue;
+      }
+
+      const file = input.files[0];
+      const fileName =
+        (file.name || '').toLowerCase();
+
+      const isPdf =
+        file.type === 'application/pdf' ||
+        fileName.endsWith('.pdf');
+
+      if(!isPdf){
+        showMessage(
+          'err',
+          'Semua file yang diunggah harus berformat PDF.'
+        );
+        input.focus();
+        return false;
+      }
+
+      if(file.size > MAX_FILE_SIZE){
+        showMessage(
+          'err',
+          `File "${file.name}" melebihi batas maksimum 2 MB.`
+        );
+        input.focus();
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  document
+    .querySelectorAll('input[type="file"]')
+    .forEach(input => {
+
+      input.addEventListener('change', function(){
+        if(!this.files || !this.files.length){
+          return;
+        }
+
+        const file = this.files[0];
+        const fileName =
+          (file.name || '').toLowerCase();
+
+        const isPdf =
+          file.type === 'application/pdf' ||
+          fileName.endsWith('.pdf');
+
+        if(!isPdf){
+          showMessage(
+            'err',
+            'File harus berformat PDF.'
+          );
+          this.value = '';
+          return;
+        }
+
+        if(file.size > MAX_FILE_SIZE){
+          showMessage(
+            'err',
+            `File "${file.name}" melebihi batas maksimum 2 MB.`
+          );
+          this.value = '';
+          return;
+        }
+
+        if(msg.classList.contains('err')){
+          msg.className = 'message';
+          msg.textContent = '';
+        }
+      });
+    });
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    if(!form.reportValidity()){
+      return;
+    }
+
+    if(!validateUploadedFiles()){
+      return;
+    }
+
+    if(!isBackendConfigured()){
+      showMessage(
+        'err',
+        'BACKEND_URL belum diisi. Tempel URL Web App Apps Script (/exec) pada index.html.'
+      );
+      return;
+    }
+
+    if(pendingSubmission){
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Menyimpan...';
+
+    showMessage(
+      'wait',
+      'Sedang mengunggah bukti dan menyimpan data. Jangan tutup halaman ini.'
+    );
+
+    try{
+      const payload =
+        await buildSubmissionPayload();
+
+      submitPayloadToBackend(payload);
+
+    }catch(error){
+      finishSubmission();
+
+      showMessage(
+        'err',
+        error && error.message
+          ? error.message
+          : 'Terjadi kesalahan saat menyiapkan data.'
+      );
+    }
+  });
+
+  async function buildSubmissionPayload(){
+    const data = {};
+    const formData = new FormData(form);
+
+    for(const [key, value] of formData.entries()){
+      if(value instanceof File){
+        continue;
+      }
+
+      data[key] = value;
+    }
+
+    const fileFields = [
+      'daftarHadirMgmp',
+      'buktiTambahanMgmp',
+      'buktiKeaktifanGuru',
+      'sertifikatGuru',
+      'undanganTendik',
+      'sertifikatTendik'
+    ];
+
+    for(const fieldName of fileFields){
+      const input =
+        form.elements[fieldName];
+
+      const file =
+        input &&
+        input.files &&
+        input.files.length
+          ? input.files[0]
+          : null;
+
+      data[fieldName] =
+        file
+          ? await fileToPayload(file)
+          : null;
+    }
+
+    return data;
+  }
+
+  function fileToPayload(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = function(){
+        const result =
+          String(reader.result || '');
+
+        const commaIndex =
+          result.indexOf(',');
+
+        if(commaIndex === -1){
+          reject(
+            new Error(
+              `File "${file.name}" gagal dibaca.`
+            )
+          );
+          return;
+        }
+
+        resolve({
+          name: file.name,
+          type:
+            file.type ||
+            'application/pdf',
+          size: file.size,
+          base64:
+            result.slice(
+              commaIndex + 1
+            )
+        });
+      };
+
+      reader.onerror = function(){
+        reject(
+          new Error(
+            `File "${file.name}" gagal dibaca.`
+          )
+        );
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function submitPayloadToBackend(payload){
+    const bridge =
+      getSubmissionBridge();
+
+    const token =
+      createRequestToken();
+
+    const transport =
+      document.createElement('form');
+
+    transport.method = 'POST';
+    transport.action = BACKEND_URL;
+    transport.target = bridge.name;
+    transport.acceptCharset = 'UTF-8';
+    transport.style.display = 'none';
+
+    appendHiddenInput(
+      transport,
+      'action',
+      'submit'
+    );
+
+    appendHiddenInput(
+      transport,
+      'token',
+      token
+    );
+
+    appendHiddenInput(
+      transport,
+      'payload',
+      JSON.stringify(payload)
+    );
+
+    document.body.appendChild(
+      transport
+    );
+
+    const timeoutId =
+      window.setTimeout(() => {
+        if(
+          !pendingSubmission ||
+          pendingSubmission.token !== token
+        ){
+          return;
+        }
+
+        finishSubmission();
+
+        showMessage(
+          'err',
+          'Server tidak memberikan respons dalam waktu yang ditentukan. Periksa koneksi lalu coba lagi.'
+        );
+      }, SUBMIT_TIMEOUT_MS);
+
+    pendingSubmission = {
+      token: token,
+      timeoutId: timeoutId
+    };
+
+    transport.submit();
+
+    window.setTimeout(() => {
+      transport.remove();
+    }, 1000);
+  }
+
+  function getSubmissionBridge(){
+    let bridge =
+      document.getElementById(
+        'gasSubmissionBridge'
+      );
+
+    if(bridge){
+      return bridge;
+    }
+
+    bridge =
+      document.createElement('iframe');
+
+    bridge.id =
+      'gasSubmissionBridge';
+
+    bridge.name =
+      'gasSubmissionBridge';
+
+    bridge.hidden = true;
+
+    bridge.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+
+    document.body.appendChild(
+      bridge
+    );
+
+    return bridge;
+  }
+
+  function appendHiddenInput(
+    parent,
+    name,
+    value
+  ){
+    const input =
+      document.createElement('input');
+
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+
+    parent.appendChild(input);
+  }
+
+  function createRequestToken(){
+    if(
+      window.crypto &&
+      typeof window.crypto.randomUUID ===
+        'function'
+    ){
+      return window.crypto.randomUUID();
+    }
+
+    return (
+      Date.now().toString(36) +
+      '-' +
+      Math.random()
+        .toString(36)
+        .slice(2)
+    );
+  }
+
+  window.addEventListener(
+    'message',
+    function(event){
+      const bridge =
+        document.getElementById(
+          'gasSubmissionBridge'
+        );
+
+      if(
+        !bridge ||
+        event.source !==
+          bridge.contentWindow
+      ){
+        return;
+      }
+
+      const data = event.data;
+
+      if(
+        !data ||
+        data.channel !== 'edm-submit' ||
+        !pendingSubmission ||
+        data.token !==
+          pendingSubmission.token
+      ){
+        return;
+      }
+
+      const result =
+        data.result || {};
+
+      finishSubmission();
+
+      if(!data.ok){
+        showMessage(
+          'err',
+          data.message ||
+          'Terjadi kesalahan saat menyimpan data.'
+        );
+        return;
+      }
+
+      showMessage(
+        'ok',
+        `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
+      );
+
+      const tahun =
+        form.tahunPelajaran.value;
+
+      const kategori =
+        document
+          .getElementById(
+            'kategoriPeserta'
+          )
+          .value;
+
+      const subkategori =
+        document
+          .getElementById(
+            'kategoriKegiatan'
+          )
+          .value;
+
+      form.reset();
+
+      form.tahunPelajaran.value =
+        tahun;
+
+      setKategoriPeserta(
+        kategori
+      );
+
+      if(kategori === 'Guru'){
+        setKategoriKegiatan(
+          subkategori
+        );
+      }
+
+      loadDashboard();
+    }
+  );
+
+  function finishSubmission(){
+    if(
+      pendingSubmission &&
+      pendingSubmission.timeoutId
+    ){
+      clearTimeout(
+        pendingSubmission.timeoutId
+      );
+    }
+
+    pendingSubmission = null;
+
+    btn.disabled = false;
+    btn.textContent =
+      'Kirim & Simpan Data';
+  }
+
+  function showMessage(type, text){
+    msg.className =
+      'message ' + type;
+
+    msg.textContent =
+      text;
+  }
+
+  function isBackendConfigured(){
+    return (
+      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
+        .test(
+          String(
+            BACKEND_URL || ''
+          ).trim()
+        )
+    );
+  }
+
+  function loadDashboard(){
+    if(!isBackendConfigured()){
+      resetDashboard();
+      console.warn(
+        'BACKEND_URL belum dikonfigurasi.'
+      );
+      return;
+    }
+
+    const callbackName =
+      '__edmDashboard_' +
+      Date.now() +
+      '_' +
+      Math.floor(
+        Math.random() * 1000000
+      );
+
+    const script =
+      document.createElement(
+        'script'
+      );
+
+    let finished = false;
+
+    const cleanup = function(){
+      if(finished){
+        return;
+      }
+
+      finished = true;
+
+      clearTimeout(
+        timeoutId
+      );
+
+      delete window[
+        callbackName
+      ];
+
+      script.remove();
+    };
+
+    window[callbackName] =
+      function(response){
+        if(
+          !response ||
+          !response.ok ||
+          !response.data
+        ){
+          resetDashboard();
+          cleanup();
+          return;
+        }
+
+        applyDashboard(
+          response.data
+        );
+
+        cleanup();
+      };
+
+    const timeoutId =
+      window.setTimeout(() => {
+        resetDashboard();
+        cleanup();
+      }, DASHBOARD_TIMEOUT_MS);
+
+    script.onerror = function(){
+      resetDashboard();
+      cleanup();
+    };
+
+    const separator =
+      BACKEND_URL.includes('?')
+        ? '&'
+        : '?';
+
+    script.src =
+      BACKEND_URL +
+      separator +
+      'action=dashboard' +
+      '&callback=' +
+      encodeURIComponent(
+        callbackName
+      ) +
+      '&_=' +
+      Date.now();
+
+    document.head.appendChild(
+      script
+    );
+  }
+
+  function applyDashboard(data){
+    document.getElementById(
+      'sTotal'
+    ).textContent =
+      data.total;
+
+    document.getElementById(
+      'sMgmp'
+    ).textContent =
+      data.guruMgmp;
+
+    document.getElementById(
+      'sPelatihan'
+    ).textContent =
+      data.guruPelatihan;
+
+    document.getElementById(
+      'sTendik'
+    ).textContent =
+      data.tendik;
+
+    document.getElementById(
+      'sGuruAktif'
+    ).textContent =
+      `${formatPercent(
+        data.guruPersen
+      )}%`;
+
+    document.getElementById(
+      'sGuruAktifDetail'
+    ).textContent =
+      `${data.guruAktif} dari 40 guru aktif`;
+
+    document.getElementById(
+      'sTendikAktif'
+    ).textContent =
+      `${formatPercent(
+        data.tendikPersen
+      )}%`;
+
+    document.getElementById(
+      'sTendikAktifDetail'
+    ).textContent =
+      `${data.tendikAktif} dari 8 tenaga kependidikan aktif`;
+  }
+
+  function resetDashboard(){
+    document.getElementById(
+      'sTotal'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sMgmp'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sPelatihan'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sTendik'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sGuruAktif'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sGuruAktifDetail'
+    ).textContent =
+      'Dari 40 guru';
+
+    document.getElementById(
+      'sTendikAktif'
+    ).textContent = '-';
+
+    document.getElementById(
+      'sTendikAktifDetail'
+    ).textContent =
+      'Dari 8 tenaga kependidikan';
+  }
+
+  function formatPercent(value){
+    const num =
+      Number(value || 0);
+
+    return Number.isInteger(num)
+      ? String(num)
+      : String(num)
+          .replace('.', ',');
+  }
+
+  window.addEventListener(
+    'load',
+    function(){
+      setKategoriPeserta(
+        'Guru'
+      );
+
+      setKategoriKegiatan(
+        'MGMP'
+      );
+
+      loadDashboard();
+    }
+  );
+</script>
+
+</body>
+</html>
