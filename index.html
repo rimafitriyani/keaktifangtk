@@ -899,8 +899,9 @@
   const btn = document.getElementById('submitBtn');
   const msg = document.getElementById('message');
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
-  const SUBMIT_TIMEOUT_MS = 120000;
+  const SUBMIT_TIMEOUT_MS = 90000;
   const DASHBOARD_TIMEOUT_MS = 20000;
+  const SUBMIT_POLL_INTERVAL_MS = 900;
 
   let pendingSubmission = null;
 
@@ -1265,42 +1266,14 @@
   }
 
   function submitPayloadToBackend(payload){
-    const bridge =
-      getSubmissionBridge();
-
     const token =
       createRequestToken();
 
-    const transport =
-      document.createElement('form');
-
-    transport.method = 'POST';
-    transport.action = BACKEND_URL;
-    transport.target = bridge.name;
-    transport.acceptCharset = 'UTF-8';
-    transport.style.display = 'none';
-
-    appendHiddenInput(
-      transport,
-      'action',
-      'submit'
-    );
-
-    appendHiddenInput(
-      transport,
-      'token',
-      token
-    );
-
-    appendHiddenInput(
-      transport,
-      'payload',
-      JSON.stringify(payload)
-    );
-
-    document.body.appendChild(
-      transport
-    );
+    const request = {
+      action: 'submit',
+      token: token,
+      payload: payload
+    };
 
     const timeoutId =
       window.setTimeout(() => {
@@ -1315,7 +1288,7 @@
 
         showMessage(
           'err',
-          'Server tidak memberikan respons dalam waktu yang ditentukan. Periksa koneksi lalu coba lagi.'
+          'Penyimpanan belum selesai dalam batas waktu. Periksa Sheet/Drive sebelum mengirim ulang agar tidak terjadi data ganda.'
         );
       }, SUBMIT_TIMEOUT_MS);
 
@@ -1324,59 +1297,166 @@
       timeoutId: timeoutId
     };
 
-    transport.submit();
+    fetch(
+      BACKEND_URL,
+      {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type':
+            'text/plain;charset=UTF-8'
+        },
+        body:
+          JSON.stringify(request)
+      }
+    ).catch(error => {
+      console.error(
+        'POST transport error:',
+        error
+      );
+    });
 
-    window.setTimeout(() => {
-      transport.remove();
-    }, 1000);
+    pollSubmissionStatus(token);
   }
 
-  function getSubmissionBridge(){
-    let bridge =
-      document.getElementById(
-        'gasSubmissionBridge'
-      );
-
-    if(bridge){
-      return bridge;
+  function pollSubmissionStatus(token){
+    if(
+      !pendingSubmission ||
+      pendingSubmission.token !== token
+    ){
+      return;
     }
 
-    bridge =
-      document.createElement('iframe');
+    jsonpRequest(
+      'submitStatus',
+      {
+        token: token
+      },
+      function(response){
+        if(
+          !pendingSubmission ||
+          pendingSubmission.token !== token
+        ){
+          return;
+        }
 
-    bridge.id =
-      'gasSubmissionBridge';
+        if(
+          !response ||
+          response.pending
+        ){
+          window.setTimeout(
+            () =>
+              pollSubmissionStatus(
+                token
+              ),
+            SUBMIT_POLL_INTERVAL_MS
+          );
+          return;
+        }
 
-    bridge.name =
-      'gasSubmissionBridge';
+        finishSubmission();
 
-    bridge.hidden = true;
+        if(!response.ok){
+          showMessage(
+            'err',
+            response.message ||
+            'Terjadi kesalahan saat menyimpan data.'
+          );
+          return;
+        }
 
-    bridge.setAttribute(
-      'aria-hidden',
-      'true'
+        handleSubmitSuccess(
+          response.result || {},
+          response.dashboard || null
+        );
+      },
+      function(){
+        if(
+          !pendingSubmission ||
+          pendingSubmission.token !== token
+        ){
+          return;
+        }
+
+        window.setTimeout(
+          () =>
+            pollSubmissionStatus(
+              token
+            ),
+          SUBMIT_POLL_INTERVAL_MS
+        );
+      },
+      8000
     );
-
-    document.body.appendChild(
-      bridge
-    );
-
-    return bridge;
   }
 
-  function appendHiddenInput(
-    parent,
-    name,
-    value
+  function handleSubmitSuccess(
+    result,
+    dashboard
   ){
-    const input =
-      document.createElement('input');
+    showMessage(
+      'ok',
+      `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
+    );
 
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
+    // Update ringkasan langsung dari hasil penyimpanan yang sama,
+    // tanpa menunggu request dashboard kedua.
+    if(dashboard){
+      applyDashboard(
+        dashboard
+      );
+    }else{
+      loadDashboard();
+    }
 
-    parent.appendChild(input);
+    const tahun =
+      form.tahunPelajaran.value;
+
+    const kategori =
+      document
+        .getElementById(
+          'kategoriPeserta'
+        )
+        .value;
+
+    const subkategori =
+      document
+        .getElementById(
+          'kategoriKegiatan'
+        )
+        .value;
+
+    form.reset();
+
+    form.tahunPelajaran.value =
+      tahun;
+
+    setKategoriPeserta(
+      kategori
+    );
+
+    if(kategori === 'Guru'){
+      setKategoriKegiatan(
+        subkategori
+      );
+    }
+  }
+
+  function finishSubmission(){
+    if(
+      pendingSubmission &&
+      pendingSubmission.timeoutId
+    ){
+      clearTimeout(
+        pendingSubmission.timeoutId
+      );
+    }
+
+    pendingSubmission = null;
+
+    btn.disabled = false;
+    btn.textContent =
+      'Kirim & Simpan Data';
   }
 
   function createRequestToken(){
@@ -1397,136 +1477,15 @@
     );
   }
 
-  window.addEventListener(
-    'message',
-    function(event){
-      const bridge =
-        document.getElementById(
-          'gasSubmissionBridge'
-        );
-
-      if(
-        !bridge ||
-        event.source !==
-          bridge.contentWindow
-      ){
-        return;
-      }
-
-      const data = event.data;
-
-      if(
-        !data ||
-        data.channel !== 'edm-submit' ||
-        !pendingSubmission ||
-        data.token !==
-          pendingSubmission.token
-      ){
-        return;
-      }
-
-      const result =
-        data.result || {};
-
-      finishSubmission();
-
-      if(!data.ok){
-        showMessage(
-          'err',
-          data.message ||
-          'Terjadi kesalahan saat menyimpan data.'
-        );
-        return;
-      }
-
-      showMessage(
-        'ok',
-        `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
-      );
-
-      const tahun =
-        form.tahunPelajaran.value;
-
-      const kategori =
-        document
-          .getElementById(
-            'kategoriPeserta'
-          )
-          .value;
-
-      const subkategori =
-        document
-          .getElementById(
-            'kategoriKegiatan'
-          )
-          .value;
-
-      form.reset();
-
-      form.tahunPelajaran.value =
-        tahun;
-
-      setKategoriPeserta(
-        kategori
-      );
-
-      if(kategori === 'Guru'){
-        setKategoriKegiatan(
-          subkategori
-        );
-      }
-
-      loadDashboard();
-    }
-  );
-
-  function finishSubmission(){
-    if(
-      pendingSubmission &&
-      pendingSubmission.timeoutId
-    ){
-      clearTimeout(
-        pendingSubmission.timeoutId
-      );
-    }
-
-    pendingSubmission = null;
-
-    btn.disabled = false;
-    btn.textContent =
-      'Kirim & Simpan Data';
-  }
-
-  function showMessage(type, text){
-    msg.className =
-      'message ' + type;
-
-    msg.textContent =
-      text;
-  }
-
-  function isBackendConfigured(){
-    return (
-      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
-        .test(
-          String(
-            BACKEND_URL || ''
-          ).trim()
-        )
-    );
-  }
-
-  function loadDashboard(){
-    if(!isBackendConfigured()){
-      resetDashboard();
-      console.warn(
-        'BACKEND_URL belum dikonfigurasi.'
-      );
-      return;
-    }
-
+  function jsonpRequest(
+    action,
+    params,
+    onSuccess,
+    onError,
+    timeoutMs
+  ){
     const callbackName =
-      '__edmDashboard_' +
+      '__edmJsonp_' +
       Date.now() +
       '_' +
       Math.floor(
@@ -1551,14 +1510,107 @@
         timeoutId
       );
 
-      delete window[
-        callbackName
-      ];
+      try{
+        delete window[
+          callbackName
+        ];
+      }catch(error){
+        window[
+          callbackName
+        ] = undefined;
+      }
 
       script.remove();
     };
 
     window[callbackName] =
+      function(response){
+        cleanup();
+
+        if(onSuccess){
+          onSuccess(response);
+        }
+      };
+
+    const timeoutId =
+      window.setTimeout(() => {
+        cleanup();
+
+        if(onError){
+          onError(
+            new Error(
+              'Request timeout.'
+            )
+          );
+        }
+      }, timeoutMs || 10000);
+
+    script.onerror =
+      function(){
+        cleanup();
+
+        if(onError){
+          onError(
+            new Error(
+              'Request gagal.'
+            )
+          );
+        }
+      };
+
+    const query =
+      new URLSearchParams({
+        action: action,
+        callback: callbackName,
+        _: String(
+          Date.now()
+        ),
+        ...params
+      });
+
+    script.src =
+      BACKEND_URL +
+      '?' +
+      query.toString();
+
+    document.head.appendChild(
+      script
+    );
+  }
+
+  function showMessage(type, text){
+    msg.className =
+      'message ' + type;
+
+    msg.textContent =
+      text;
+  }
+
+  function isBackendConfigured(){
+    return (
+      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
+        .test(
+          String(
+            BACKEND_URL || ''
+          ).trim()
+        )
+    );
+  }
+
+  function loadDashboard(){
+    if(!isBackendConfigured()){
+      resetDashboard();
+
+      console.warn(
+        'BACKEND_URL belum dikonfigurasi.'
+      );
+
+      return;
+    }
+
+    jsonpRequest(
+      'dashboard',
+      {},
       function(response){
         if(
           !response ||
@@ -1566,46 +1618,17 @@
           !response.data
         ){
           resetDashboard();
-          cleanup();
           return;
         }
 
         applyDashboard(
           response.data
         );
-
-        cleanup();
-      };
-
-    const timeoutId =
-      window.setTimeout(() => {
+      },
+      function(){
         resetDashboard();
-        cleanup();
-      }, DASHBOARD_TIMEOUT_MS);
-
-    script.onerror = function(){
-      resetDashboard();
-      cleanup();
-    };
-
-    const separator =
-      BACKEND_URL.includes('?')
-        ? '&'
-        : '?';
-
-    script.src =
-      BACKEND_URL +
-      separator +
-      'action=dashboard' +
-      '&callback=' +
-      encodeURIComponent(
-        callbackName
-      ) +
-      '&_=' +
-      Date.now();
-
-    document.head.appendChild(
-      script
+      },
+      DASHBOARD_TIMEOUT_MS
     );
   }
 
