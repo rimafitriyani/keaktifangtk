@@ -899,9 +899,7 @@
   const btn = document.getElementById('submitBtn');
   const msg = document.getElementById('message');
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
-  const SUBMIT_TIMEOUT_MS = 90000;
   const DASHBOARD_TIMEOUT_MS = 20000;
-  const SUBMIT_POLL_INTERVAL_MS = 900;
 
   let pendingSubmission = null;
 
@@ -1269,126 +1267,164 @@
     const token =
       createRequestToken();
 
-    const request = {
-      action: 'submit',
-      token: token,
-      payload: payload
-    };
+    const bridge =
+      getSubmissionBridge();
 
-    const timeoutId =
-      window.setTimeout(() => {
-        if(
-          !pendingSubmission ||
-          pendingSubmission.token !== token
-        ){
-          return;
-        }
+    const transport =
+      document.createElement('form');
 
-        finishSubmission();
+    transport.method = 'POST';
+    transport.action = BACKEND_URL;
+    transport.target = bridge.name;
+    transport.acceptCharset = 'UTF-8';
+    transport.style.display = 'none';
 
-        showMessage(
-          'err',
-          'Penyimpanan belum selesai dalam batas waktu. Periksa Sheet/Drive sebelum mengirim ulang agar tidak terjadi data ganda.'
-        );
-      }, SUBMIT_TIMEOUT_MS);
+    appendHiddenInput(
+      transport,
+      'action',
+      'submit'
+    );
+
+    appendHiddenInput(
+      transport,
+      'token',
+      token
+    );
+
+    appendHiddenInput(
+      transport,
+      'payload',
+      JSON.stringify(payload)
+    );
 
     pendingSubmission = {
-      token: token,
-      timeoutId: timeoutId
+      token: token
     };
 
-    fetch(
-      BACKEND_URL,
-      {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type':
-            'text/plain;charset=UTF-8'
-        },
-        body:
-          JSON.stringify(request)
-      }
-    ).catch(error => {
-      console.error(
-        'POST transport error:',
-        error
-      );
-    });
+    document.body.appendChild(
+      transport
+    );
 
-    pollSubmissionStatus(token);
+    transport.submit();
+
+    window.setTimeout(() => {
+      transport.remove();
+    }, 1000);
   }
 
-  function pollSubmissionStatus(token){
-    if(
-      !pendingSubmission ||
-      pendingSubmission.token !== token
-    ){
-      return;
+  function getSubmissionBridge(){
+    let bridge =
+      document.getElementById(
+        'gasSubmissionBridge'
+      );
+
+    if(bridge){
+      return bridge;
     }
 
-    jsonpRequest(
-      'submitStatus',
-      {
-        token: token
-      },
-      function(response){
-        if(
-          !pendingSubmission ||
-          pendingSubmission.token !== token
-        ){
-          return;
-        }
+    bridge =
+      document.createElement('iframe');
 
-        if(
-          !response ||
-          response.pending
-        ){
-          window.setTimeout(
-            () =>
-              pollSubmissionStatus(
-                token
-              ),
-            SUBMIT_POLL_INTERVAL_MS
-          );
-          return;
-        }
+    bridge.id =
+      'gasSubmissionBridge';
 
-        finishSubmission();
+    bridge.name =
+      'gasSubmissionBridge';
 
-        if(!response.ok){
-          showMessage(
-            'err',
-            response.message ||
-            'Terjadi kesalahan saat menyimpan data.'
-          );
-          return;
-        }
+    bridge.hidden = true;
 
-        handleSubmitSuccess(
-          response.result || {},
-          response.dashboard || null
-        );
-      },
-      function(){
-        if(
-          !pendingSubmission ||
-          pendingSubmission.token !== token
-        ){
-          return;
-        }
+    bridge.setAttribute(
+      'aria-hidden',
+      'true'
+    );
 
-        window.setTimeout(
-          () =>
-            pollSubmissionStatus(
-              token
-            ),
-          SUBMIT_POLL_INTERVAL_MS
-        );
-      },
-      8000
+    document.body.appendChild(
+      bridge
+    );
+
+    return bridge;
+  }
+
+  function appendHiddenInput(
+    parent,
+    name,
+    value
+  ){
+    const input =
+      document.createElement('input');
+
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+
+    parent.appendChild(input);
+  }
+
+  function createRequestToken(){
+    if(
+      window.crypto &&
+      typeof window.crypto.randomUUID ===
+        'function'
+    ){
+      return window.crypto.randomUUID();
+    }
+
+    return (
+      Date.now().toString(36) +
+      '-' +
+      Math.random()
+        .toString(36)
+        .slice(2)
     );
   }
+
+  window.addEventListener(
+    'message',
+    function(event){
+      const bridge =
+        document.getElementById(
+          'gasSubmissionBridge'
+        );
+
+      if(
+        !bridge ||
+        event.source !==
+          bridge.contentWindow
+      ){
+        return;
+      }
+
+      const response =
+        event.data;
+
+      if(
+        !response ||
+        response.channel !==
+          'edm-submit' ||
+        !pendingSubmission ||
+        response.token !==
+          pendingSubmission.token
+      ){
+        return;
+      }
+
+      finishSubmission();
+
+      if(!response.ok){
+        showMessage(
+          'err',
+          response.message ||
+          'Terjadi kesalahan saat menyimpan data.'
+        );
+        return;
+      }
+
+      handleSubmitSuccess(
+        response.result || {},
+        response.dashboard || null
+      );
+    }
+  );
 
   function handleSubmitSuccess(
     result,
@@ -1399,8 +1435,6 @@
       `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
     );
 
-    // Update ringkasan langsung dari hasil penyimpanan yang sama,
-    // tanpa menunggu request dashboard kedua.
     if(dashboard){
       applyDashboard(
         dashboard
@@ -1443,38 +1477,11 @@
   }
 
   function finishSubmission(){
-    if(
-      pendingSubmission &&
-      pendingSubmission.timeoutId
-    ){
-      clearTimeout(
-        pendingSubmission.timeoutId
-      );
-    }
-
     pendingSubmission = null;
 
     btn.disabled = false;
     btn.textContent =
       'Kirim & Simpan Data';
-  }
-
-  function createRequestToken(){
-    if(
-      window.crypto &&
-      typeof window.crypto.randomUUID ===
-        'function'
-    ){
-      return window.crypto.randomUUID();
-    }
-
-    return (
-      Date.now().toString(36) +
-      '-' +
-      Math.random()
-        .toString(36)
-        .slice(2)
-    );
   }
 
   function jsonpRequest(
