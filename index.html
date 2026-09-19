@@ -457,28 +457,22 @@
 
     .savingBar span{
       display:block;
-      width:35%;
+      width:0%;
       height:100%;
       border-radius:inherit;
       background:#1f57d6;
-      animation:savingBarMove 1.15s ease-in-out infinite;
+      transition:width .35s ease;
     }
 
-    .savingElapsed{
+    .savingPercent{
       margin-top:12px;
-      font-size:13px;
-      font-weight:700;
-      color:#42526b;
+      font-size:18px;
+      font-weight:800;
+      color:#1f57d6;
     }
 
     @keyframes savingSpin{
       to{transform:rotate(360deg)}
-    }
-
-    @keyframes savingBarMove{
-      0%{transform:translateX(-115%)}
-      50%{transform:translateX(105%)}
-      100%{transform:translateX(285%)}
     }
 
   </style>
@@ -1011,121 +1005,74 @@
   const DASHBOARD_TIMEOUT_MS =
     12000;
 
+  const SUBMISSION_CHECK_INTERVAL_MS =
+    800;
+
+  const SUBMISSION_MAX_WAIT_MS =
+    30000;
+
   let pendingSubmission = null;
   let savingTimer = null;
-  let savingStartedAt = 0;
+  let savingProgress = 0;
 
-  function setKategoriPeserta(
-    type
-  ){
-    document
-      .getElementById(
-        'kategoriPeserta'
-      )
-      .value = type;
+  function setKategoriPeserta(type){
+    document.getElementById('kategoriPeserta').value = type;
 
-    document
-      .querySelectorAll(
-        '.tab'
-      )
-      .forEach(
-        button => {
-          button.classList.toggle(
-            'active',
-            button.dataset.type ===
-            type
-          );
-        }
+    document.querySelectorAll('.tab').forEach(button => {
+      button.classList.toggle(
+        'active',
+        button.dataset.type === type
       );
+    });
 
     const isGuru =
       type === 'Guru';
 
     document
-      .getElementById(
-        'pilihanGuru'
-      )
+      .getElementById('pilihanGuru')
       .classList.toggle(
         'hidden',
         !isGuru
       );
 
-    document
-      .getElementById(
-        'labelPeran'
-      )
-      .textContent =
-        isGuru
-          ? 'Mata Pelajaran'
-          : 'Jabatan';
+    document.getElementById('labelPeran').textContent =
+      isGuru
+        ? 'Mata Pelajaran'
+        : 'Jabatan';
 
-    document
-      .getElementById(
-        'mapelJabatan'
-      )
-      .placeholder =
-        isGuru
-          ? 'Contoh: Matematika'
-          : 'Contoh: Operator / Tata Usaha';
+    document.getElementById('mapelJabatan').placeholder =
+      isGuru
+        ? 'Contoh: Matematika'
+        : 'Contoh: Operator / Tata Usaha';
 
     if(isGuru){
       const current =
         document
-          .getElementById(
-            'kategoriKegiatan'
-          )
+          .getElementById('kategoriKegiatan')
           .value;
 
       setKategoriKegiatan(
-        current ===
-          'Pelatihan/Workshop/Bimtek dan Sejenisnya'
+        current === 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
           ? 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
           : 'MGMP'
       );
-
     }else{
-      document
-        .getElementById(
-          'kategoriKegiatan'
-        )
-        .value =
-          'Pelatihan/Workshop/Bimtek dan Sejenisnya';
+      document.getElementById('kategoriKegiatan').value =
+        'Pelatihan/Workshop/Bimtek dan Sejenisnya';
 
-      document
-        .getElementById(
-          'formMgmp'
-        )
-        .classList.add(
-          'hidden'
-        );
+      document.getElementById('formMgmp')
+        .classList.add('hidden');
 
-      document
-        .getElementById(
-          'formPelatihan'
-        )
-        .classList.remove(
-          'hidden'
-        );
+      document.getElementById('formPelatihan')
+        .classList.remove('hidden');
 
-      document
-        .getElementById(
-          'buktiPelatihanGuru'
-        )
-        .classList.add(
-          'hidden'
-        );
+      document.getElementById('buktiPelatihanGuru')
+        .classList.add('hidden');
 
-      document
-        .getElementById(
-          'buktiTendik'
-        )
-        .classList.remove(
-          'hidden'
-        );
+      document.getElementById('buktiTendik')
+        .classList.remove('hidden');
 
-      setRequirements(
-        'tendik'
-      );
+      setRequirements('tendik');
 
       clearEvidenceLinks([
         'linkMgmp',
@@ -1136,70 +1083,29 @@
     }
   }
 
-  function setKategoriKegiatan(
-    type
-  ){
-    document
-      .getElementById(
-        'kategoriKegiatan'
-      )
-      .value = type;
+  function setKategoriKegiatan(type){
+    document.getElementById('kategoriKegiatan').value = type;
 
     const isMgmp =
       type === 'MGMP';
 
-    document
-      .getElementById(
-        'choiceMgmp'
-      )
-      .classList.toggle(
-        'active',
-        isMgmp
-      );
+    document.getElementById('choiceMgmp')
+      .classList.toggle('active', isMgmp);
 
-    document
-      .getElementById(
-        'choicePelatihan'
-      )
-      .classList.toggle(
-        'active',
-        !isMgmp
-      );
+    document.getElementById('choicePelatihan')
+      .classList.toggle('active', !isMgmp);
 
-    document
-      .getElementById(
-        'formMgmp'
-      )
-      .classList.toggle(
-        'hidden',
-        !isMgmp
-      );
+    document.getElementById('formMgmp')
+      .classList.toggle('hidden', !isMgmp);
 
-    document
-      .getElementById(
-        'formPelatihan'
-      )
-      .classList.toggle(
-        'hidden',
-        isMgmp
-      );
+    document.getElementById('formPelatihan')
+      .classList.toggle('hidden', isMgmp);
 
-    document
-      .getElementById(
-        'buktiPelatihanGuru'
-      )
-      .classList.toggle(
-        'hidden',
-        isMgmp
-      );
+    document.getElementById('buktiPelatihanGuru')
+      .classList.toggle('hidden', isMgmp);
 
-    document
-      .getElementById(
-        'buktiTendik'
-      )
-      .classList.add(
-        'hidden'
-      );
+    document.getElementById('buktiTendik')
+      .classList.add('hidden');
 
     setRequirements(
       isMgmp
@@ -1214,7 +1120,6 @@
         'linkUndanganTendik',
         'linkSertifikatTendik'
       ]);
-
     }else{
       clearEvidenceLinks([
         'linkMgmp',
@@ -1223,36 +1128,18 @@
     }
   }
 
-  function setRequirements(
-    mode
-  ){
-    document
-      .getElementById(
-        'linkMgmp'
-      )
-      .required =
-        mode === 'mgmp';
+  function setRequirements(mode){
+    document.getElementById('linkMgmp').required =
+      mode === 'mgmp';
 
-    document
-      .getElementById(
-        'namaMgmp'
-      )
-      .required =
-        mode === 'mgmp';
+    document.getElementById('namaMgmp').required =
+      mode === 'mgmp';
 
-    document
-      .getElementById(
-        'statusKeaktifanMgmp'
-      )
-      .required =
-        mode === 'mgmp';
+    document.getElementById('statusKeaktifanMgmp').required =
+      mode === 'mgmp';
 
-    document
-      .getElementById(
-        'persentaseKehadiranMgmp'
-      )
-      .required =
-        mode === 'mgmp';
+    document.getElementById('persentaseKehadiranMgmp').required =
+      mode === 'mgmp';
 
     [
       'jenisKegiatan',
@@ -1260,69 +1147,39 @@
       'penyelenggara',
       'moda',
       'tanggalMulai'
-    ].forEach(
-      id => {
-        document
-          .getElementById(id)
-          .required =
-            mode !== 'mgmp';
-      }
-    );
+    ].forEach(id => {
+      document.getElementById(id).required =
+        mode !== 'mgmp';
+    });
 
-    document
-      .getElementById(
-        'linkKeaktifanGuru'
-      )
-      .required =
-        mode === 'pelatihan';
+    document.getElementById('linkKeaktifanGuru').required =
+      mode === 'pelatihan';
 
-    document
-      .getElementById(
-        'linkSertifikatGuru'
-      )
-      .required =
-        mode === 'pelatihan';
+    document.getElementById('linkSertifikatGuru').required =
+      mode === 'pelatihan';
 
-    document
-      .getElementById(
-        'linkUndanganTendik'
-      )
-      .required =
-        mode === 'tendik';
+    document.getElementById('linkUndanganTendik').required =
+      mode === 'tendik';
 
-    document
-      .getElementById(
-        'linkSertifikatTendik'
-      )
-      .required =
-        mode === 'tendik';
+    document.getElementById('linkSertifikatTendik').required =
+      mode === 'tendik';
   }
 
-  function clearEvidenceLinks(
-    ids
-  ){
-    ids.forEach(
-      id => {
-        const el =
-          document
-            .getElementById(id);
+  function clearEvidenceLinks(ids){
+    ids.forEach(id => {
+      const el =
+        document.getElementById(id);
 
-        if(el){
-          el.value = '';
-        }
+      if(el){
+        el.value = '';
       }
-    );
+    });
   }
 
-  function isGoogleDriveLink(
-    value
-  ){
+  function isGoogleDriveLink(value){
     return /^https:\/\/drive\.google\.com\/.+/i
       .test(
-        String(
-          value ||
-          ''
-        ).trim()
+        String(value || '').trim()
       );
   }
 
@@ -1336,12 +1193,9 @@
       'linkSertifikatTendik'
     ];
 
-    for(
-      const id of ids
-    ){
+    for(const id of ids){
       const input =
-        document
-          .getElementById(id);
+        document.getElementById(id);
 
       if(
         !input ||
@@ -1350,18 +1204,13 @@
         continue;
       }
 
-      if(
-        !isGoogleDriveLink(
-          input.value
-        )
-      ){
+      if(!isGoogleDriveLink(input.value)){
         showMessage(
           'err',
           'Semua bukti harus menggunakan link Google Drive yang diawali https://drive.google.com/.'
         );
 
         input.focus();
-
         return false;
       }
     }
@@ -1374,21 +1223,15 @@
     function(e){
       e.preventDefault();
 
-      if(
-        !form.reportValidity()
-      ){
+      if(!form.reportValidity()){
         return;
       }
 
-      if(
-        !validateEvidenceLinks()
-      ){
+      if(!validateEvidenceLinks()){
         return;
       }
 
-      if(
-        !isBackendConfigured()
-      ){
+      if(!isBackendConfigured()){
         showMessage(
           'err',
           'BACKEND_URL belum dikonfigurasi.'
@@ -1396,11 +1239,26 @@
         return;
       }
 
-      if(
-        pendingSubmission
-      ){
+      if(pendingSubmission){
         return;
       }
+
+      const submissionId =
+        createSubmissionId();
+
+      const payload =
+        buildSubmissionPayload(
+          submissionId
+        );
+
+      const category =
+        resolveFrontendCategory();
+
+      pendingSubmission = {
+        id: submissionId,
+        category: category,
+        startedAt: Date.now()
+      };
 
       btn.disabled = true;
       btn.textContent =
@@ -1413,295 +1271,221 @@
         'Sedang menyimpan data...'
       );
 
-      try{
-        const payload =
-          buildSubmissionPayload();
+      sendSubmission(
+        payload
+      );
 
-        submitPayloadToBackend(
-          payload
-        );
-
-      }catch(error){
-        finishSubmission();
-
-        showMessage(
-          'err',
-          error &&
-          error.message
-            ? error.message
-            : 'Terjadi kesalahan saat menyiapkan data.'
-        );
-      }
+      pollSubmissionStatus(
+        submissionId,
+        category
+      );
     }
   );
 
-  function buildSubmissionPayload(){
-    const data = {};
+  function buildSubmissionPayload(submissionId){
+    const data = {
+      submissionId:
+        submissionId
+    };
 
     const formData =
       new FormData(form);
 
-    for(
-      const [
-        key,
-        value
-      ] of formData.entries()
-    ){
+    for(const [key, value] of formData.entries()){
       data[key] = value;
     }
 
     return data;
   }
 
-  function submitPayloadToBackend(
-    payload
-  ){
-    const token =
-      createRequestToken();
-
-    const bridge =
-      getSubmissionBridge();
-
-    const transport =
+  function resolveFrontendCategory(){
+    const peserta =
       document
-        .createElement(
-          'form'
-        );
+        .getElementById('kategoriPeserta')
+        .value;
 
-    transport.method =
-      'POST';
-
-    transport.action =
-      BACKEND_URL;
-
-    transport.target =
-      bridge.name;
-
-    transport.acceptCharset =
-      'UTF-8';
-
-    transport.style.display =
-      'none';
-
-    appendHiddenInput(
-      transport,
-      'action',
-      'submit'
-    );
-
-    appendHiddenInput(
-      transport,
-      'token',
-      token
-    );
-
-    appendHiddenInput(
-      transport,
-      'payload',
-      JSON.stringify(
-        payload
-      )
-    );
-
-    pendingSubmission = {
-      token: token
-    };
-
-    document.body
-      .appendChild(
-        transport
-      );
-
-    transport.submit();
-
-    window.setTimeout(
-      () => {
-        transport.remove();
-      },
-      1000
-    );
-  }
-
-  function getSubmissionBridge(){
-    let bridge =
+    const kegiatan =
       document
-        .getElementById(
-          'gasSubmissionBridge'
-        );
+        .getElementById('kategoriKegiatan')
+        .value;
 
-    if(bridge){
-      return bridge;
-    }
-
-    bridge =
-      document
-        .createElement(
-          'iframe'
-        );
-
-    bridge.id =
-      'gasSubmissionBridge';
-
-    bridge.name =
-      'gasSubmissionBridge';
-
-    bridge.hidden = true;
-
-    bridge.setAttribute(
-      'aria-hidden',
-      'true'
-    );
-
-    document.body
-      .appendChild(
-        bridge
-      );
-
-    return bridge;
-  }
-
-  function appendHiddenInput(
-    parent,
-    name,
-    value
-  ){
-    const input =
-      document
-        .createElement(
-          'input'
-        );
-
-    input.type =
-      'hidden';
-
-    input.name =
-      name;
-
-    input.value =
-      value;
-
-    parent.appendChild(
-      input
-    );
-  }
-
-  function createRequestToken(){
     if(
-      window.crypto &&
-      typeof
-        window.crypto
-          .randomUUID ===
-        'function'
+      peserta === 'Guru' &&
+      kegiatan === 'MGMP'
     ){
-      return window
-        .crypto
-        .randomUUID();
+      return 'MGMP_GURU';
     }
 
-    return (
-      Date.now()
-        .toString(36) +
-      '-' +
-      Math.random()
-        .toString(36)
-        .slice(2)
-    );
+    if(peserta === 'Guru'){
+      return 'PELATIHAN_GURU';
+    }
+
+    return 'PELATIHAN_TENDIK';
   }
 
-  window.addEventListener(
-    'message',
-    function(event){
-      const bridge =
-        document
-          .getElementById(
-            'gasSubmissionBridge'
-          );
-
-      if(
-        !bridge ||
-        event.source !==
-          bridge.contentWindow
-      ){
-        return;
+  function sendSubmission(payload){
+    fetch(
+      BACKEND_URL,
+      {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type':
+            'text/plain;charset=UTF-8'
+        },
+        body:
+          JSON.stringify({
+            action: 'submit',
+            payload: payload
+          })
       }
+    ).catch(error => {
+      console.error(
+        'POST error:',
+        error
+      );
+    });
+  }
 
-      const response =
-        event.data;
+  function pollSubmissionStatus(id, category){
+    if(
+      !pendingSubmission ||
+      pendingSubmission.id !== id
+    ){
+      return;
+    }
 
-      if(
-        !response ||
-        response.channel !==
-          'edm-submit' ||
-        !pendingSubmission ||
-        response.token !==
-          pendingSubmission.token
-      ){
-        return;
-      }
+    const elapsed =
+      Date.now() -
+      pendingSubmission.startedAt;
 
+    if(elapsed > SUBMISSION_MAX_WAIT_MS){
       finishSubmission();
 
-      if(
-        !response.ok
-      ){
-        showMessage(
-          'err',
-          response.message ||
-          'Terjadi kesalahan saat menyimpan data.'
-        );
-
-        return;
-      }
-
-      handleSubmitSuccess(
-        response.result ||
-        {}
+      showMessage(
+        'err',
+        'Data belum terkonfirmasi di Spreadsheet. Silakan periksa Sheet sebelum mengirim ulang.'
       );
-    }
-  );
 
-  function handleSubmitSuccess(
-    result
-  ){
+      return;
+    }
+
+    jsonpRequest(
+      'submissionStatus',
+      {
+        id: id,
+        category: category
+      },
+      function(response){
+        if(
+          !pendingSubmission ||
+          pendingSubmission.id !== id
+        ){
+          return;
+        }
+
+        if(
+          response &&
+          response.ok &&
+          response.found
+        ){
+          completeSavingIndicator();
+
+          window.setTimeout(
+            function(){
+              finishSubmission();
+
+              handleSubmitSuccess(
+                id
+              );
+            },
+            300
+          );
+
+          return;
+        }
+
+        window.setTimeout(
+          function(){
+            pollSubmissionStatus(
+              id,
+              category
+            );
+          },
+          SUBMISSION_CHECK_INTERVAL_MS
+        );
+      },
+      function(){
+        if(
+          !pendingSubmission ||
+          pendingSubmission.id !== id
+        ){
+          return;
+        }
+
+        window.setTimeout(
+          function(){
+            pollSubmissionStatus(
+              id,
+              category
+            );
+          },
+          SUBMISSION_CHECK_INTERVAL_MS
+        );
+      },
+      5000
+    );
+  }
+
+  function createSubmissionId(){
+    const timestamp =
+      String(
+        Date.now()
+      );
+
+    const random =
+      Math.random()
+        .toString(36)
+        .slice(2, 8)
+        .toUpperCase();
+
+    return (
+      'EDM-' +
+      timestamp +
+      '-' +
+      random
+    );
+  }
+
+  function handleSubmitSuccess(submissionId){
     showMessage(
       'ok',
-      `Berhasil disimpan. ID pengiriman: ${result.id}.`
+      `Berhasil disimpan. ID pengiriman: ${submissionId}.`
     );
 
     const tahun =
-      form
-        .tahunPelajaran
-        .value;
+      form.tahunPelajaran.value;
 
     const kategori =
       document
-        .getElementById(
-          'kategoriPeserta'
-        )
+        .getElementById('kategoriPeserta')
         .value;
 
     const subkategori =
       document
-        .getElementById(
-          'kategoriKegiatan'
-        )
+        .getElementById('kategoriKegiatan')
         .value;
 
     form.reset();
 
-    form
-      .tahunPelajaran
-      .value =
-        tahun;
+    form.tahunPelajaran.value =
+      tahun;
 
     setKategoriPeserta(
       kategori
     );
 
-    if(
-      kategori ===
-      'Guru'
-    ){
+    if(kategori === 'Guru'){
       setKategoriKegiatan(
         subkategori
       );
@@ -1713,30 +1497,42 @@
     );
   }
 
+  function setSavingProgress(value){
+    savingProgress =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          Math.round(value)
+        )
+      );
+
+    const bar =
+      document.getElementById(
+        'savingProgressBar'
+      );
+
+    const percent =
+      document.getElementById(
+        'savingPercent'
+      );
+
+    if(bar){
+      bar.style.width =
+        `${savingProgress}%`;
+    }
+
+    if(percent){
+      percent.textContent =
+        `${savingProgress}%`;
+    }
+  }
+
   function showSavingIndicator(){
     const overlay =
       document.getElementById(
         'savingOverlay'
       );
-
-    const elapsed =
-      document.getElementById(
-        'savingElapsed'
-      );
-
-    savingStartedAt =
-      Date.now();
-
-    if(elapsed){
-      elapsed.textContent =
-        'Waktu berjalan: 0 detik';
-    }
-
-    if(overlay){
-      overlay.classList.remove(
-        'hidden'
-      );
-    }
 
     if(savingTimer){
       clearInterval(
@@ -1744,24 +1540,58 @@
       );
     }
 
+    setSavingProgress(8);
+
+    if(overlay){
+      overlay.classList.remove(
+        'hidden'
+      );
+    }
+
     savingTimer =
       window.setInterval(
         function(){
-          const seconds =
-            Math.floor(
-              (
-                Date.now() -
-                savingStartedAt
-              ) / 1000
+          if(savingProgress >= 94){
+            clearInterval(
+              savingTimer
             );
 
-          if(elapsed){
-            elapsed.textContent =
-              `Waktu berjalan: ${seconds} detik`;
+            savingTimer = null;
+            return;
           }
+
+          let step = 2;
+
+          if(savingProgress < 45){
+            step = 6;
+          }else if(
+            savingProgress < 75
+          ){
+            step = 4;
+          }
+
+          setSavingProgress(
+            Math.min(
+              94,
+              savingProgress +
+              step
+            )
+          );
         },
-        1000
+        400
       );
+  }
+
+  function completeSavingIndicator(){
+    if(savingTimer){
+      clearInterval(
+        savingTimer
+      );
+
+      savingTimer = null;
+    }
+
+    setSavingProgress(100);
   }
 
   function hideSavingIndicator(){
@@ -1783,6 +1613,8 @@
         'hidden'
       );
     }
+
+    setSavingProgress(0);
   }
 
   function finishSubmission(){
@@ -1796,13 +1628,9 @@
       'Kirim & Simpan Data';
   }
 
-  function showMessage(
-    type,
-    text
-  ){
+  function showMessage(type, text){
     msg.className =
-      'message ' +
-      type;
+      'message ' + type;
 
     msg.textContent =
       text;
@@ -1813,8 +1641,7 @@
       /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
         .test(
           String(
-            BACKEND_URL ||
-            ''
+            BACKEND_URL || ''
           ).trim()
         )
     );
@@ -1837,54 +1664,46 @@
       );
 
     const script =
-      document
-        .createElement(
-          'script'
-        );
+      document.createElement('script');
 
     let finished = false;
 
-    const cleanup =
-      function(){
-        if(finished){
-          return;
-        }
+    const cleanup = function(){
+      if(finished){
+        return;
+      }
 
-        finished = true;
+      finished = true;
 
-        clearTimeout(
-          timeoutId
-        );
+      clearTimeout(
+        timeoutId
+      );
 
-        try{
-          delete window[
-            callbackName
-          ];
-        }catch(error){
-          window[
-            callbackName
-          ] = undefined;
-        }
+      try{
+        delete window[
+          callbackName
+        ];
+      }catch(error){
+        window[
+          callbackName
+        ] = undefined;
+      }
 
-        script.remove();
-      };
+      script.remove();
+    };
 
-    window[
-      callbackName
-    ] =
+    window[callbackName] =
       function(response){
         cleanup();
 
         if(onSuccess){
-          onSuccess(
-            response
-          );
+          onSuccess(response);
         }
       };
 
     const timeoutId =
       window.setTimeout(
-        () => {
+        function(){
           cleanup();
 
           if(onError){
@@ -1895,8 +1714,7 @@
             );
           }
         },
-        timeoutMs ||
-        10000
+        timeoutMs || 10000
       );
 
     script.onerror =
@@ -1929,16 +1747,13 @@
       '?' +
       query.toString();
 
-    document.head
-      .appendChild(
-        script
-      );
+    document.head.appendChild(
+      script
+    );
   }
 
   function loadDashboard(){
-    if(
-      !isBackendConfigured()
-    ){
+    if(!isBackendConfigured()){
       resetDashboard();
       return;
     }
@@ -1946,7 +1761,6 @@
     jsonpRequest(
       'dashboard',
       {},
-
       function(response){
         if(
           !response ||
@@ -1961,77 +1775,37 @@
           response.data
         );
       },
-
       function(){
         resetDashboard();
       },
-
       DASHBOARD_TIMEOUT_MS
     );
   }
 
-  function applyDashboard(
-    data
-  ){
-    document
-      .getElementById(
-        'sTotal'
-      )
-      .textContent =
-        data.total;
+  function applyDashboard(data){
+    document.getElementById('sTotal').textContent =
+      data.total;
 
-    document
-      .getElementById(
-        'sMgmp'
-      )
-      .textContent =
-        data.guruMgmp;
+    document.getElementById('sMgmp').textContent =
+      data.guruMgmp;
 
-    document
-      .getElementById(
-        'sPelatihan'
-      )
-      .textContent =
-        data.guruPelatihan;
+    document.getElementById('sPelatihan').textContent =
+      data.guruPelatihan;
 
-    document
-      .getElementById(
-        'sTendik'
-      )
-      .textContent =
-        data.tendik;
+    document.getElementById('sTendik').textContent =
+      data.tendik;
 
-    document
-      .getElementById(
-        'sGuruAktif'
-      )
-      .textContent =
-        `${formatPercent(
-          data.guruPersen
-        )}%`;
+    document.getElementById('sGuruAktif').textContent =
+      `${formatPercent(data.guruPersen)}%`;
 
-    document
-      .getElementById(
-        'sGuruAktifDetail'
-      )
-      .textContent =
-        `${data.guruAktif} dari 40 guru aktif`;
+    document.getElementById('sGuruAktifDetail').textContent =
+      `${data.guruAktif} dari 40 guru aktif`;
 
-    document
-      .getElementById(
-        'sTendikAktif'
-      )
-      .textContent =
-        `${formatPercent(
-          data.tendikPersen
-        )}%`;
+    document.getElementById('sTendikAktif').textContent =
+      `${formatPercent(data.tendikPersen)}%`;
 
-    document
-      .getElementById(
-        'sTendikAktifDetail'
-      )
-      .textContent =
-        `${data.tendikAktif} dari 8 tenaga kependidikan aktif`;
+    document.getElementById('sTendikAktifDetail').textContent =
+      `${data.tendikAktif} dari 8 tenaga kependidikan aktif`;
   }
 
   function resetDashboard(){
@@ -2042,60 +1816,33 @@
       'sTendik',
       'sGuruAktif',
       'sTendikAktif'
-    ].forEach(
-      id => {
-        document
-          .getElementById(id)
-          .textContent = '-';
-      }
-    );
+    ].forEach(id => {
+      document
+        .getElementById(id)
+        .textContent = '-';
+    });
 
-    document
-      .getElementById(
-        'sGuruAktifDetail'
-      )
-      .textContent =
-        'Dari 40 guru';
+    document.getElementById('sGuruAktifDetail').textContent =
+      'Dari 40 guru';
 
-    document
-      .getElementById(
-        'sTendikAktifDetail'
-      )
-      .textContent =
-        'Dari 8 tenaga kependidikan';
+    document.getElementById('sTendikAktifDetail').textContent =
+      'Dari 8 tenaga kependidikan';
   }
 
-  function formatPercent(
-    value
-  ){
+  function formatPercent(value){
     const num =
-      Number(
-        value ||
-        0
-      );
+      Number(value || 0);
 
-    return Number.isInteger(
-      num
-    )
+    return Number.isInteger(num)
       ? String(num)
-      : String(num)
-          .replace(
-            '.',
-            ','
-          );
+      : String(num).replace('.', ',');
   }
 
   window.addEventListener(
     'load',
     function(){
-      setKategoriPeserta(
-        'Guru'
-      );
-
-      setKategoriKegiatan(
-        'MGMP'
-      );
-
+      setKategoriPeserta('Guru');
+      setKategoriKegiatan('MGMP');
       loadDashboard();
     }
   );
@@ -2116,10 +1863,10 @@
         Jangan tutup halaman ini sampai proses selesai.
       </p>
       <div class="savingBar" aria-hidden="true">
-        <span></span>
+        <span id="savingProgressBar"></span>
       </div>
-      <div id="savingElapsed" class="savingElapsed">
-        Waktu berjalan: 0 detik
+      <div id="savingPercent" class="savingPercent">
+        0%
       </div>
     </div>
   </div>
