@@ -397,6 +397,90 @@
       .hero{padding:22px}
       .card{padding:18px}
     }
+  
+    .savingOverlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(15,23,42,.42);
+      backdrop-filter:blur(3px);
+      z-index:9999;
+    }
+
+    .savingOverlay.hidden{
+      display:none;
+    }
+
+    .savingCard{
+      width:min(420px,100%);
+      background:#fff;
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 24px 70px rgba(15,23,42,.24);
+      text-align:center;
+    }
+
+    .savingSpinner{
+      width:52px;
+      height:52px;
+      margin:0 auto 16px;
+      border:5px solid #dbe7ff;
+      border-top-color:#1f57d6;
+      border-radius:50%;
+      animation:savingSpin .8s linear infinite;
+    }
+
+    .savingTitle{
+      margin:0 0 6px;
+      font-size:20px;
+      font-weight:800;
+      color:#182230;
+    }
+
+    .savingText{
+      margin:0;
+      color:#697386;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .savingBar{
+      height:8px;
+      margin-top:18px;
+      overflow:hidden;
+      border-radius:999px;
+      background:#e8eefc;
+    }
+
+    .savingBar span{
+      display:block;
+      width:35%;
+      height:100%;
+      border-radius:inherit;
+      background:#1f57d6;
+      animation:savingBarMove 1.15s ease-in-out infinite;
+    }
+
+    .savingElapsed{
+      margin-top:12px;
+      font-size:13px;
+      font-weight:700;
+      color:#42526b;
+    }
+
+    @keyframes savingSpin{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes savingBarMove{
+      0%{transform:translateX(-115%)}
+      50%{transform:translateX(105%)}
+      100%{transform:translateX(285%)}
+    }
+
   </style>
 </head>
 
@@ -928,6 +1012,8 @@
     12000;
 
   let pendingSubmission = null;
+  let savingTimer = null;
+  let savingStartedAt = 0;
 
   function setKategoriPeserta(
     type
@@ -1320,6 +1406,8 @@
       btn.textContent =
         'Menyimpan...';
 
+      showSavingIndicator();
+
       showMessage(
         'wait',
         'Sedang menyimpan data...'
@@ -1625,8 +1713,82 @@
     );
   }
 
+  function showSavingIndicator(){
+    const overlay =
+      document.getElementById(
+        'savingOverlay'
+      );
+
+    const elapsed =
+      document.getElementById(
+        'savingElapsed'
+      );
+
+    savingStartedAt =
+      Date.now();
+
+    if(elapsed){
+      elapsed.textContent =
+        'Waktu berjalan: 0 detik';
+    }
+
+    if(overlay){
+      overlay.classList.remove(
+        'hidden'
+      );
+    }
+
+    if(savingTimer){
+      clearInterval(
+        savingTimer
+      );
+    }
+
+    savingTimer =
+      window.setInterval(
+        function(){
+          const seconds =
+            Math.floor(
+              (
+                Date.now() -
+                savingStartedAt
+              ) / 1000
+            );
+
+          if(elapsed){
+            elapsed.textContent =
+              `Waktu berjalan: ${seconds} detik`;
+          }
+        },
+        1000
+      );
+  }
+
+  function hideSavingIndicator(){
+    const overlay =
+      document.getElementById(
+        'savingOverlay'
+      );
+
+    if(savingTimer){
+      clearInterval(
+        savingTimer
+      );
+
+      savingTimer = null;
+    }
+
+    if(overlay){
+      overlay.classList.add(
+        'hidden'
+      );
+    }
+  }
+
   function finishSubmission(){
     pendingSubmission = null;
+
+    hideSavingIndicator();
 
     btn.disabled = false;
 
@@ -1938,6 +2100,29 @@
     }
   );
 </script>
+
+
+  <div
+    id="savingOverlay"
+    class="savingOverlay hidden"
+    role="status"
+    aria-live="polite"
+    aria-busy="true">
+    <div class="savingCard">
+      <div class="savingSpinner" aria-hidden="true"></div>
+      <div class="savingTitle">Sedang menyimpan data...</div>
+      <p class="savingText">
+        Data sedang dikirim dan disimpan ke Spreadsheet.
+        Jangan tutup halaman ini sampai proses selesai.
+      </p>
+      <div class="savingBar" aria-hidden="true">
+        <span></span>
+      </div>
+      <div id="savingElapsed" class="savingElapsed">
+        Waktu berjalan: 0 detik
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
