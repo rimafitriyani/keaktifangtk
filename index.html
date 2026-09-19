@@ -1152,11 +1152,11 @@
     }
 
     btn.disabled = true;
-    btn.textContent = 'Menyimpan...';
+    btn.textContent = 'Mengunggah & Menyimpan...';
 
     showMessage(
       'wait',
-      'Sedang mengunggah bukti dan menyimpan data. Jangan tutup halaman ini.'
+      'Sedang mengunggah PDF dan menyimpan data. Jangan tutup halaman ini.'
     );
 
     try{
@@ -1420,28 +1420,18 @@
       }
 
       handleSubmitSuccess(
-        response.result || {},
-        response.dashboard || null
+        response.result || {}
       );
     }
   );
 
   function handleSubmitSuccess(
-    result,
-    dashboard
+    result
   ){
     showMessage(
       'ok',
       `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
     );
-
-    if(dashboard){
-      applyDashboard(
-        dashboard
-      );
-    }else{
-      loadDashboard();
-    }
 
     const tahun =
       form.tahunPelajaran.value;
@@ -1474,6 +1464,13 @@
         subkategori
       );
     }
+
+    // Ringkasan diperbarui terpisah setelah proses simpan selesai.
+    // Tombol dan pesan sukses tidak menunggu proses ini.
+    window.setTimeout(
+      loadDashboard,
+      100
+    );
   }
 
   function finishSubmission(){
