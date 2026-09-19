@@ -605,43 +605,43 @@
       </div>
 
       <div class="hintbox">
-        Daftar hadir MGMP wajib diunggah. Bukti tambahan seperti surat undangan,
-        surat tugas, atau dokumentasi dapat ditambahkan bila tersedia.
-        Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+        Unggah bukti ke Google Drive Anda sendiri, lalu atur akses menjadi
+        <b>Siapa saja yang memiliki link – Pelihat</b>. Setelah itu tempel
+        link Google Drive pada kolom berikut. Jangan hapus file atau mengubah
+        izin akses selama periode verifikasi EDM.
       </div>
 
       <div class="grid">
         <div class="c6 upload">
-          <label class="req">Daftar Hadir MGMP</label>
+          <label class="req">Link Daftar Hadir MGMP</label>
 
           <input
-            id="fileMgmp"
+            id="linkMgmp"
             name="daftarHadirMgmp"
-            type="file"
-            accept="application/pdf,.pdf"
+            type="url"
+            placeholder="https://drive.google.com/..."
             required>
 
           <small>
-            Unggah rekap/daftar hadir MGMP selama semester berjalan.
-            PDF maksimal 2 MB.
+            Tempel link Google Drive daftar hadir MGMP.
           </small>
         </div>
 
         <div class="c6 upload">
           <label>
-            Bukti Tambahan MGMP
+            Link Bukti Tambahan MGMP
             <span style="font-weight:400;color:#697386">(Opsional)</span>
           </label>
 
           <input
-            id="fileTambahanMgmp"
+            id="linkTambahanMgmp"
             name="buktiTambahanMgmp"
-            type="file"
-            accept="application/pdf,.pdf">
+            type="url"
+            placeholder="https://drive.google.com/...">
 
           <small>
             Contoh: surat undangan, surat tugas, dokumentasi kegiatan,
-            atau bukti pendukung lainnya. PDF maksimal 2 MB.
+            atau bukti pendukung lainnya.
           </small>
         </div>
       </div>
@@ -753,36 +753,38 @@
         </div>
 
         <div class="hintbox">
-          Unggah bukti keaktifan dan sertifikat.
-          Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+          Unggah bukti ke Google Drive Anda sendiri, atur akses menjadi
+          <b>Siapa saja yang memiliki link – Pelihat</b>, lalu tempel linknya.
         </div>
 
         <div class="grid">
           <div class="c6 upload">
-            <label class="req">Bukti Keaktifan</label>
+            <label class="req">Link Bukti Keaktifan</label>
 
             <input
-              id="fileKeaktifanGuru"
+              id="linkKeaktifanGuru"
               name="buktiKeaktifanGuru"
-              type="file"
-              accept="application/pdf,.pdf">
+              type="url"
+              placeholder="https://drive.google.com/...">
 
             <small>
               Surat tugas, dokumentasi, daftar peserta, tangkapan layar,
-              atau bukti lain yang telah dijadikan PDF. Maksimal 2 MB.
+              atau bukti keaktifan lainnya.
             </small>
           </div>
 
           <div class="c6 upload">
-            <label class="req">Sertifikat</label>
+            <label class="req">Link Sertifikat</label>
 
             <input
-              id="fileSertifikatGuru"
+              id="linkSertifikatGuru"
               name="sertifikatGuru"
-              type="file"
-              accept="application/pdf,.pdf">
+              type="url"
+              placeholder="https://drive.google.com/...">
 
-            <small>PDF maksimal 2 MB.</small>
+            <small>
+              Tempel link Google Drive sertifikat.
+            </small>
           </div>
         </div>
       </div>
@@ -796,36 +798,58 @@
         </div>
 
         <div class="hintbox">
-          Unggah undangan/surat penyelenggara dan sertifikat keikutsertaan.
-          Semua file harus berupa <b>PDF maksimal 2 MB per file</b>.
+          Unggah undangan/surat penyelenggara dan sertifikat ke Google Drive
+          Anda sendiri, atur akses menjadi
+          <b>Siapa saja yang memiliki link – Pelihat</b>, lalu tempel linknya.
         </div>
 
         <div class="grid">
           <div class="c6 upload">
-            <label class="req">Undangan / Surat Penyelenggara</label>
+            <label class="req">Link Undangan / Surat Penyelenggara</label>
 
             <input
-              id="fileUndanganTendik"
+              id="linkUndanganTendik"
               name="undanganTendik"
-              type="file"
-              accept="application/pdf,.pdf">
+              type="url"
+              placeholder="https://drive.google.com/...">
 
-            <small>PDF maksimal 2 MB.</small>
+            <small>
+              Tempel link Google Drive undangan atau surat penyelenggara.
+            </small>
           </div>
 
           <div class="c6 upload">
-            <label class="req">Sertifikat Keikutsertaan</label>
+            <label class="req">Link Sertifikat Keikutsertaan</label>
 
             <input
-              id="fileSertifikatTendik"
+              id="linkSertifikatTendik"
               name="sertifikatTendik"
-              type="file"
-              accept="application/pdf,.pdf">
+              type="url"
+              placeholder="https://drive.google.com/...">
 
-            <small>PDF maksimal 2 MB.</small>
+            <small>
+              Tempel link Google Drive sertifikat keikutsertaan.
+            </small>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="hintbox" style="margin-top:18px">
+      <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer">
+        <input
+          id="konfirmasiAksesDrive"
+          name="konfirmasiAksesDrive"
+          type="checkbox"
+          value="Ya"
+          required
+          style="width:auto;margin-top:3px">
+        <span>
+          Saya memastikan semua bukti yang saya lampirkan telah diatur menjadi
+          <b>Siapa saja yang memiliki link – Pelihat</b>, dan saya tidak akan
+          menghapus file atau mengubah izin akses selama periode verifikasi EDM.
+        </span>
+      </label>
     </div>
 
     <button
@@ -882,139 +906,267 @@
 </div>
 
 <script>
-  /**
-   * ==========================================================
-   * KONFIGURASI GITHUB PAGES -> GOOGLE APPS SCRIPT
-   * ==========================================================
-   *
-   * Setelah Code.gs di-deploy sebagai Web App, tempel URL /exec
-   * pada BACKEND_URL di bawah ini.
-   *
-   * Contoh:
-   * https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-   */
-  const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwh362_2dc3FnO8comQuP0aVwiQNl74y-SDoJm1eMX_gMS2mXicknwsUZg7qdGPI4vjrQ/exec';
+  const BACKEND_URL =
+    'https://script.google.com/macros/s/AKfycbwh362_2dc3FnO8comQuP0aVwiQNl74y-SDoJm1eMX_gMS2mXicknwsUZg7qdGPI4vjrQ/exec';
 
-  const form = document.getElementById('formGtk');
-  const btn = document.getElementById('submitBtn');
-  const msg = document.getElementById('message');
-  const MAX_FILE_SIZE = 2 * 1024 * 1024;
-  const DASHBOARD_TIMEOUT_MS = 20000;
+  const form =
+    document.getElementById(
+      'formGtk'
+    );
+
+  const btn =
+    document.getElementById(
+      'submitBtn'
+    );
+
+  const msg =
+    document.getElementById(
+      'message'
+    );
+
+  const DASHBOARD_TIMEOUT_MS =
+    12000;
 
   let pendingSubmission = null;
 
-  function setKategoriPeserta(type){
-    document.getElementById('kategoriPeserta').value = type;
-
-    document.querySelectorAll('.tab').forEach(button => {
-      button.classList.toggle(
-        'active',
-        button.dataset.type === type
-      );
-    });
-
-    const isGuru = type === 'Guru';
+  function setKategoriPeserta(
+    type
+  ){
+    document
+      .getElementById(
+        'kategoriPeserta'
+      )
+      .value = type;
 
     document
-      .getElementById('pilihanGuru')
-      .classList.toggle('hidden', !isGuru);
+      .querySelectorAll(
+        '.tab'
+      )
+      .forEach(
+        button => {
+          button.classList.toggle(
+            'active',
+            button.dataset.type ===
+            type
+          );
+        }
+      );
 
-    document.getElementById('labelPeran').textContent =
-      isGuru ? 'Mata Pelajaran' : 'Jabatan';
+    const isGuru =
+      type === 'Guru';
 
-    document.getElementById('mapelJabatan').placeholder =
-      isGuru
-        ? 'Contoh: Matematika'
-        : 'Contoh: Operator / Tata Usaha';
+    document
+      .getElementById(
+        'pilihanGuru'
+      )
+      .classList.toggle(
+        'hidden',
+        !isGuru
+      );
+
+    document
+      .getElementById(
+        'labelPeran'
+      )
+      .textContent =
+        isGuru
+          ? 'Mata Pelajaran'
+          : 'Jabatan';
+
+    document
+      .getElementById(
+        'mapelJabatan'
+      )
+      .placeholder =
+        isGuru
+          ? 'Contoh: Matematika'
+          : 'Contoh: Operator / Tata Usaha';
 
     if(isGuru){
       const current =
-        document.getElementById('kategoriKegiatan').value;
+        document
+          .getElementById(
+            'kategoriKegiatan'
+          )
+          .value;
 
       setKategoriKegiatan(
-        current === 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
+        current ===
+          'Pelatihan/Workshop/Bimtek dan Sejenisnya'
           ? 'Pelatihan/Workshop/Bimtek dan Sejenisnya'
           : 'MGMP'
       );
+
     }else{
-      document.getElementById('kategoriKegiatan').value =
-        'Pelatihan/Workshop/Bimtek dan Sejenisnya';
+      document
+        .getElementById(
+          'kategoriKegiatan'
+        )
+        .value =
+          'Pelatihan/Workshop/Bimtek dan Sejenisnya';
 
-      document.getElementById('formMgmp')
-        .classList.add('hidden');
+      document
+        .getElementById(
+          'formMgmp'
+        )
+        .classList.add(
+          'hidden'
+        );
 
-      document.getElementById('formPelatihan')
-        .classList.remove('hidden');
+      document
+        .getElementById(
+          'formPelatihan'
+        )
+        .classList.remove(
+          'hidden'
+        );
 
-      document.getElementById('buktiPelatihanGuru')
-        .classList.add('hidden');
+      document
+        .getElementById(
+          'buktiPelatihanGuru'
+        )
+        .classList.add(
+          'hidden'
+        );
 
-      document.getElementById('buktiTendik')
-        .classList.remove('hidden');
+      document
+        .getElementById(
+          'buktiTendik'
+        )
+        .classList.remove(
+          'hidden'
+        );
 
-      setRequirements('tendik');
+      setRequirements(
+        'tendik'
+      );
 
-      clearFiles([
-        'fileMgmp',
-        'fileTambahanMgmp',
-        'fileKeaktifanGuru',
-        'fileSertifikatGuru'
+      clearEvidenceLinks([
+        'linkMgmp',
+        'linkTambahanMgmp',
+        'linkKeaktifanGuru',
+        'linkSertifikatGuru'
       ]);
     }
   }
 
-  function setKategoriKegiatan(type){
-    document.getElementById('kategoriKegiatan').value = type;
+  function setKategoriKegiatan(
+    type
+  ){
+    document
+      .getElementById(
+        'kategoriKegiatan'
+      )
+      .value = type;
 
-    const isMgmp = type === 'MGMP';
+    const isMgmp =
+      type === 'MGMP';
 
-    document.getElementById('choiceMgmp')
-      .classList.toggle('active', isMgmp);
+    document
+      .getElementById(
+        'choiceMgmp'
+      )
+      .classList.toggle(
+        'active',
+        isMgmp
+      );
 
-    document.getElementById('choicePelatihan')
-      .classList.toggle('active', !isMgmp);
+    document
+      .getElementById(
+        'choicePelatihan'
+      )
+      .classList.toggle(
+        'active',
+        !isMgmp
+      );
 
-    document.getElementById('formMgmp')
-      .classList.toggle('hidden', !isMgmp);
+    document
+      .getElementById(
+        'formMgmp'
+      )
+      .classList.toggle(
+        'hidden',
+        !isMgmp
+      );
 
-    document.getElementById('formPelatihan')
-      .classList.toggle('hidden', isMgmp);
+    document
+      .getElementById(
+        'formPelatihan'
+      )
+      .classList.toggle(
+        'hidden',
+        isMgmp
+      );
 
-    document.getElementById('buktiPelatihanGuru')
-      .classList.toggle('hidden', isMgmp);
+    document
+      .getElementById(
+        'buktiPelatihanGuru'
+      )
+      .classList.toggle(
+        'hidden',
+        isMgmp
+      );
 
-    document.getElementById('buktiTendik')
-      .classList.add('hidden');
+    document
+      .getElementById(
+        'buktiTendik'
+      )
+      .classList.add(
+        'hidden'
+      );
 
-    setRequirements(isMgmp ? 'mgmp' : 'pelatihan');
+    setRequirements(
+      isMgmp
+        ? 'mgmp'
+        : 'pelatihan'
+    );
 
     if(isMgmp){
-      clearFiles([
-        'fileKeaktifanGuru',
-        'fileSertifikatGuru',
-        'fileUndanganTendik',
-        'fileSertifikatTendik'
+      clearEvidenceLinks([
+        'linkKeaktifanGuru',
+        'linkSertifikatGuru',
+        'linkUndanganTendik',
+        'linkSertifikatTendik'
       ]);
+
     }else{
-      clearFiles([
-        'fileMgmp',
-        'fileTambahanMgmp'
+      clearEvidenceLinks([
+        'linkMgmp',
+        'linkTambahanMgmp'
       ]);
     }
   }
 
-  function setRequirements(mode){
-    document.getElementById('fileMgmp').required =
-      mode === 'mgmp';
+  function setRequirements(
+    mode
+  ){
+    document
+      .getElementById(
+        'linkMgmp'
+      )
+      .required =
+        mode === 'mgmp';
 
-    document.getElementById('namaMgmp').required =
-      mode === 'mgmp';
+    document
+      .getElementById(
+        'namaMgmp'
+      )
+      .required =
+        mode === 'mgmp';
 
-    document.getElementById('statusKeaktifanMgmp').required =
-      mode === 'mgmp';
+    document
+      .getElementById(
+        'statusKeaktifanMgmp'
+      )
+      .required =
+        mode === 'mgmp';
 
-    document.getElementById('persentaseKehadiranMgmp').required =
-      mode === 'mgmp';
+    document
+      .getElementById(
+        'persentaseKehadiranMgmp'
+      )
+      .required =
+        mode === 'mgmp';
 
     [
       'jenisKegiatan',
@@ -1022,63 +1174,108 @@
       'penyelenggara',
       'moda',
       'tanggalMulai'
-    ].forEach(id => {
-      document.getElementById(id).required =
-        mode !== 'mgmp';
-    });
+    ].forEach(
+      id => {
+        document
+          .getElementById(id)
+          .required =
+            mode !== 'mgmp';
+      }
+    );
 
-    document.getElementById('fileKeaktifanGuru').required =
-      mode === 'pelatihan';
+    document
+      .getElementById(
+        'linkKeaktifanGuru'
+      )
+      .required =
+        mode === 'pelatihan';
 
-    document.getElementById('fileSertifikatGuru').required =
-      mode === 'pelatihan';
+    document
+      .getElementById(
+        'linkSertifikatGuru'
+      )
+      .required =
+        mode === 'pelatihan';
 
-    document.getElementById('fileUndanganTendik').required =
-      mode === 'tendik';
+    document
+      .getElementById(
+        'linkUndanganTendik'
+      )
+      .required =
+        mode === 'tendik';
 
-    document.getElementById('fileSertifikatTendik').required =
-      mode === 'tendik';
+    document
+      .getElementById(
+        'linkSertifikatTendik'
+      )
+      .required =
+        mode === 'tendik';
   }
 
-  function clearFiles(ids){
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.value = '';
-    });
+  function clearEvidenceLinks(
+    ids
+  ){
+    ids.forEach(
+      id => {
+        const el =
+          document
+            .getElementById(id);
+
+        if(el){
+          el.value = '';
+        }
+      }
+    );
   }
 
-  function validateUploadedFiles(){
-    const fileInputs =
-      form.querySelectorAll('input[type="file"]');
+  function isGoogleDriveLink(
+    value
+  ){
+    return /^https:\/\/drive\.google\.com\/.+/i
+      .test(
+        String(
+          value ||
+          ''
+        ).trim()
+      );
+  }
 
-    for(const input of fileInputs){
-      if(!input.files || !input.files.length){
+  function validateEvidenceLinks(){
+    const ids = [
+      'linkMgmp',
+      'linkTambahanMgmp',
+      'linkKeaktifanGuru',
+      'linkSertifikatGuru',
+      'linkUndanganTendik',
+      'linkSertifikatTendik'
+    ];
+
+    for(
+      const id of ids
+    ){
+      const input =
+        document
+          .getElementById(id);
+
+      if(
+        !input ||
+        !input.value.trim()
+      ){
         continue;
       }
 
-      const file = input.files[0];
-      const fileName =
-        (file.name || '').toLowerCase();
-
-      const isPdf =
-        file.type === 'application/pdf' ||
-        fileName.endsWith('.pdf');
-
-      if(!isPdf){
+      if(
+        !isGoogleDriveLink(
+          input.value
+        )
+      ){
         showMessage(
           'err',
-          'Semua file yang diunggah harus berformat PDF.'
+          'Semua bukti harus menggunakan link Google Drive yang diawali https://drive.google.com/.'
         );
-        input.focus();
-        return false;
-      }
 
-      if(file.size > MAX_FILE_SIZE){
-        showMessage(
-          'err',
-          `File "${file.name}" melebihi batas maksimum 2 MB.`
-        );
         input.focus();
+
         return false;
       }
     }
@@ -1086,184 +1283,91 @@
     return true;
   }
 
-  document
-    .querySelectorAll('input[type="file"]')
-    .forEach(input => {
+  form.addEventListener(
+    'submit',
+    function(e){
+      e.preventDefault();
 
-      input.addEventListener('change', function(){
-        if(!this.files || !this.files.length){
-          return;
-        }
-
-        const file = this.files[0];
-        const fileName =
-          (file.name || '').toLowerCase();
-
-        const isPdf =
-          file.type === 'application/pdf' ||
-          fileName.endsWith('.pdf');
-
-        if(!isPdf){
-          showMessage(
-            'err',
-            'File harus berformat PDF.'
-          );
-          this.value = '';
-          return;
-        }
-
-        if(file.size > MAX_FILE_SIZE){
-          showMessage(
-            'err',
-            `File "${file.name}" melebihi batas maksimum 2 MB.`
-          );
-          this.value = '';
-          return;
-        }
-
-        if(msg.classList.contains('err')){
-          msg.className = 'message';
-          msg.textContent = '';
-        }
-      });
-    });
-
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-
-    if(!form.reportValidity()){
-      return;
-    }
-
-    if(!validateUploadedFiles()){
-      return;
-    }
-
-    if(!isBackendConfigured()){
-      showMessage(
-        'err',
-        'BACKEND_URL belum diisi. Tempel URL Web App Apps Script (/exec) pada index.html.'
-      );
-      return;
-    }
-
-    if(pendingSubmission){
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Mengunggah & Menyimpan...';
-
-    showMessage(
-      'wait',
-      'Sedang mengunggah PDF dan menyimpan data. Jangan tutup halaman ini.'
-    );
-
-    try{
-      const payload =
-        await buildSubmissionPayload();
-
-      submitPayloadToBackend(payload);
-
-    }catch(error){
-      finishSubmission();
-
-      showMessage(
-        'err',
-        error && error.message
-          ? error.message
-          : 'Terjadi kesalahan saat menyiapkan data.'
-      );
-    }
-  });
-
-  async function buildSubmissionPayload(){
-    const data = {};
-    const formData = new FormData(form);
-
-    for(const [key, value] of formData.entries()){
-      if(value instanceof File){
-        continue;
+      if(
+        !form.reportValidity()
+      ){
+        return;
       }
 
-      data[key] = value;
+      if(
+        !validateEvidenceLinks()
+      ){
+        return;
+      }
+
+      if(
+        !isBackendConfigured()
+      ){
+        showMessage(
+          'err',
+          'BACKEND_URL belum dikonfigurasi.'
+        );
+        return;
+      }
+
+      if(
+        pendingSubmission
+      ){
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent =
+        'Menyimpan...';
+
+      showMessage(
+        'wait',
+        'Sedang menyimpan data...'
+      );
+
+      try{
+        const payload =
+          buildSubmissionPayload();
+
+        submitPayloadToBackend(
+          payload
+        );
+
+      }catch(error){
+        finishSubmission();
+
+        showMessage(
+          'err',
+          error &&
+          error.message
+            ? error.message
+            : 'Terjadi kesalahan saat menyiapkan data.'
+        );
+      }
     }
+  );
 
-    const fileFields = [
-      'daftarHadirMgmp',
-      'buktiTambahanMgmp',
-      'buktiKeaktifanGuru',
-      'sertifikatGuru',
-      'undanganTendik',
-      'sertifikatTendik'
-    ];
+  function buildSubmissionPayload(){
+    const data = {};
 
-    for(const fieldName of fileFields){
-      const input =
-        form.elements[fieldName];
+    const formData =
+      new FormData(form);
 
-      const file =
-        input &&
-        input.files &&
-        input.files.length
-          ? input.files[0]
-          : null;
-
-      data[fieldName] =
-        file
-          ? await fileToPayload(file)
-          : null;
+    for(
+      const [
+        key,
+        value
+      ] of formData.entries()
+    ){
+      data[key] = value;
     }
 
     return data;
   }
 
-  function fileToPayload(file){
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = function(){
-        const result =
-          String(reader.result || '');
-
-        const commaIndex =
-          result.indexOf(',');
-
-        if(commaIndex === -1){
-          reject(
-            new Error(
-              `File "${file.name}" gagal dibaca.`
-            )
-          );
-          return;
-        }
-
-        resolve({
-          name: file.name,
-          type:
-            file.type ||
-            'application/pdf',
-          size: file.size,
-          base64:
-            result.slice(
-              commaIndex + 1
-            )
-        });
-      };
-
-      reader.onerror = function(){
-        reject(
-          new Error(
-            `File "${file.name}" gagal dibaca.`
-          )
-        );
-      };
-
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function submitPayloadToBackend(payload){
+  function submitPayloadToBackend(
+    payload
+  ){
     const token =
       createRequestToken();
 
@@ -1271,13 +1375,25 @@
       getSubmissionBridge();
 
     const transport =
-      document.createElement('form');
+      document
+        .createElement(
+          'form'
+        );
 
-    transport.method = 'POST';
-    transport.action = BACKEND_URL;
-    transport.target = bridge.name;
-    transport.acceptCharset = 'UTF-8';
-    transport.style.display = 'none';
+    transport.method =
+      'POST';
+
+    transport.action =
+      BACKEND_URL;
+
+    transport.target =
+      bridge.name;
+
+    transport.acceptCharset =
+      'UTF-8';
+
+    transport.style.display =
+      'none';
 
     appendHiddenInput(
       transport,
@@ -1294,36 +1410,46 @@
     appendHiddenInput(
       transport,
       'payload',
-      JSON.stringify(payload)
+      JSON.stringify(
+        payload
+      )
     );
 
     pendingSubmission = {
       token: token
     };
 
-    document.body.appendChild(
-      transport
-    );
+    document.body
+      .appendChild(
+        transport
+      );
 
     transport.submit();
 
-    window.setTimeout(() => {
-      transport.remove();
-    }, 1000);
+    window.setTimeout(
+      () => {
+        transport.remove();
+      },
+      1000
+    );
   }
 
   function getSubmissionBridge(){
     let bridge =
-      document.getElementById(
-        'gasSubmissionBridge'
-      );
+      document
+        .getElementById(
+          'gasSubmissionBridge'
+        );
 
     if(bridge){
       return bridge;
     }
 
     bridge =
-      document.createElement('iframe');
+      document
+        .createElement(
+          'iframe'
+        );
 
     bridge.id =
       'gasSubmissionBridge';
@@ -1338,9 +1464,10 @@
       'true'
     );
 
-    document.body.appendChild(
-      bridge
-    );
+    document.body
+      .appendChild(
+        bridge
+      );
 
     return bridge;
   }
@@ -1351,26 +1478,41 @@
     value
   ){
     const input =
-      document.createElement('input');
+      document
+        .createElement(
+          'input'
+        );
 
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
+    input.type =
+      'hidden';
 
-    parent.appendChild(input);
+    input.name =
+      name;
+
+    input.value =
+      value;
+
+    parent.appendChild(
+      input
+    );
   }
 
   function createRequestToken(){
     if(
       window.crypto &&
-      typeof window.crypto.randomUUID ===
+      typeof
+        window.crypto
+          .randomUUID ===
         'function'
     ){
-      return window.crypto.randomUUID();
+      return window
+        .crypto
+        .randomUUID();
     }
 
     return (
-      Date.now().toString(36) +
+      Date.now()
+        .toString(36) +
       '-' +
       Math.random()
         .toString(36)
@@ -1382,9 +1524,10 @@
     'message',
     function(event){
       const bridge =
-        document.getElementById(
-          'gasSubmissionBridge'
-        );
+        document
+          .getElementById(
+            'gasSubmissionBridge'
+          );
 
       if(
         !bridge ||
@@ -1410,17 +1553,21 @@
 
       finishSubmission();
 
-      if(!response.ok){
+      if(
+        !response.ok
+      ){
         showMessage(
           'err',
           response.message ||
           'Terjadi kesalahan saat menyimpan data.'
         );
+
         return;
       }
 
       handleSubmitSuccess(
-        response.result || {}
+        response.result ||
+        {}
       );
     }
   );
@@ -1430,11 +1577,13 @@
   ){
     showMessage(
       'ok',
-      `Berhasil disimpan. ID pengiriman: ${result.id}. Status bukti: ${result.status}.`
+      `Berhasil disimpan. ID pengiriman: ${result.id}.`
     );
 
     const tahun =
-      form.tahunPelajaran.value;
+      form
+        .tahunPelajaran
+        .value;
 
     const kategori =
       document
@@ -1452,21 +1601,24 @@
 
     form.reset();
 
-    form.tahunPelajaran.value =
-      tahun;
+    form
+      .tahunPelajaran
+      .value =
+        tahun;
 
     setKategoriPeserta(
       kategori
     );
 
-    if(kategori === 'Guru'){
+    if(
+      kategori ===
+      'Guru'
+    ){
       setKategoriKegiatan(
         subkategori
       );
     }
 
-    // Ringkasan diperbarui terpisah setelah proses simpan selesai.
-    // Tombol dan pesan sukses tidak menunggu proses ini.
     window.setTimeout(
       loadDashboard,
       100
@@ -1477,8 +1629,33 @@
     pendingSubmission = null;
 
     btn.disabled = false;
+
     btn.textContent =
       'Kirim & Simpan Data';
+  }
+
+  function showMessage(
+    type,
+    text
+  ){
+    msg.className =
+      'message ' +
+      type;
+
+    msg.textContent =
+      text;
+  }
+
+  function isBackendConfigured(){
+    return (
+      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
+        .test(
+          String(
+            BACKEND_URL ||
+            ''
+          ).trim()
+        )
+    );
   }
 
   function jsonpRequest(
@@ -1493,61 +1670,72 @@
       Date.now() +
       '_' +
       Math.floor(
-        Math.random() * 1000000
+        Math.random() *
+        1000000
       );
 
     const script =
-      document.createElement(
-        'script'
-      );
+      document
+        .createElement(
+          'script'
+        );
 
     let finished = false;
 
-    const cleanup = function(){
-      if(finished){
-        return;
-      }
+    const cleanup =
+      function(){
+        if(finished){
+          return;
+        }
 
-      finished = true;
+        finished = true;
 
-      clearTimeout(
-        timeoutId
-      );
+        clearTimeout(
+          timeoutId
+        );
 
-      try{
-        delete window[
-          callbackName
-        ];
-      }catch(error){
-        window[
-          callbackName
-        ] = undefined;
-      }
+        try{
+          delete window[
+            callbackName
+          ];
+        }catch(error){
+          window[
+            callbackName
+          ] = undefined;
+        }
 
-      script.remove();
-    };
+        script.remove();
+      };
 
-    window[callbackName] =
+    window[
+      callbackName
+    ] =
       function(response){
         cleanup();
 
         if(onSuccess){
-          onSuccess(response);
+          onSuccess(
+            response
+          );
         }
       };
 
     const timeoutId =
-      window.setTimeout(() => {
-        cleanup();
+      window.setTimeout(
+        () => {
+          cleanup();
 
-        if(onError){
-          onError(
-            new Error(
-              'Request timeout.'
-            )
-          );
-        }
-      }, timeoutMs || 10000);
+          if(onError){
+            onError(
+              new Error(
+                'Request timeout.'
+              )
+            );
+          }
+        },
+        timeoutMs ||
+        10000
+      );
 
     script.onerror =
       function(){
@@ -1565,10 +1753,12 @@
     const query =
       new URLSearchParams({
         action: action,
-        callback: callbackName,
-        _: String(
-          Date.now()
-        ),
+        callback:
+          callbackName,
+        _:
+          String(
+            Date.now()
+          ),
         ...params
       });
 
@@ -1577,44 +1767,24 @@
       '?' +
       query.toString();
 
-    document.head.appendChild(
-      script
-    );
-  }
-
-  function showMessage(type, text){
-    msg.className =
-      'message ' + type;
-
-    msg.textContent =
-      text;
-  }
-
-  function isBackendConfigured(){
-    return (
-      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
-        .test(
-          String(
-            BACKEND_URL || ''
-          ).trim()
-        )
-    );
+    document.head
+      .appendChild(
+        script
+      );
   }
 
   function loadDashboard(){
-    if(!isBackendConfigured()){
+    if(
+      !isBackendConfigured()
+    ){
       resetDashboard();
-
-      console.warn(
-        'BACKEND_URL belum dikonfigurasi.'
-      );
-
       return;
     }
 
     jsonpRequest(
       'dashboard',
       {},
+
       function(response){
         if(
           !response ||
@@ -1629,103 +1799,128 @@
           response.data
         );
       },
+
       function(){
         resetDashboard();
       },
+
       DASHBOARD_TIMEOUT_MS
     );
   }
 
-  function applyDashboard(data){
-    document.getElementById(
-      'sTotal'
-    ).textContent =
-      data.total;
+  function applyDashboard(
+    data
+  ){
+    document
+      .getElementById(
+        'sTotal'
+      )
+      .textContent =
+        data.total;
 
-    document.getElementById(
-      'sMgmp'
-    ).textContent =
-      data.guruMgmp;
+    document
+      .getElementById(
+        'sMgmp'
+      )
+      .textContent =
+        data.guruMgmp;
 
-    document.getElementById(
-      'sPelatihan'
-    ).textContent =
-      data.guruPelatihan;
+    document
+      .getElementById(
+        'sPelatihan'
+      )
+      .textContent =
+        data.guruPelatihan;
 
-    document.getElementById(
-      'sTendik'
-    ).textContent =
-      data.tendik;
+    document
+      .getElementById(
+        'sTendik'
+      )
+      .textContent =
+        data.tendik;
 
-    document.getElementById(
-      'sGuruAktif'
-    ).textContent =
-      `${formatPercent(
-        data.guruPersen
-      )}%`;
+    document
+      .getElementById(
+        'sGuruAktif'
+      )
+      .textContent =
+        `${formatPercent(
+          data.guruPersen
+        )}%`;
 
-    document.getElementById(
-      'sGuruAktifDetail'
-    ).textContent =
-      `${data.guruAktif} dari 40 guru aktif`;
+    document
+      .getElementById(
+        'sGuruAktifDetail'
+      )
+      .textContent =
+        `${data.guruAktif} dari 40 guru aktif`;
 
-    document.getElementById(
-      'sTendikAktif'
-    ).textContent =
-      `${formatPercent(
-        data.tendikPersen
-      )}%`;
+    document
+      .getElementById(
+        'sTendikAktif'
+      )
+      .textContent =
+        `${formatPercent(
+          data.tendikPersen
+        )}%`;
 
-    document.getElementById(
-      'sTendikAktifDetail'
-    ).textContent =
-      `${data.tendikAktif} dari 8 tenaga kependidikan aktif`;
+    document
+      .getElementById(
+        'sTendikAktifDetail'
+      )
+      .textContent =
+        `${data.tendikAktif} dari 8 tenaga kependidikan aktif`;
   }
 
   function resetDashboard(){
-    document.getElementById(
-      'sTotal'
-    ).textContent = '-';
-
-    document.getElementById(
-      'sMgmp'
-    ).textContent = '-';
-
-    document.getElementById(
-      'sPelatihan'
-    ).textContent = '-';
-
-    document.getElementById(
-      'sTendik'
-    ).textContent = '-';
-
-    document.getElementById(
-      'sGuruAktif'
-    ).textContent = '-';
-
-    document.getElementById(
-      'sGuruAktifDetail'
-    ).textContent =
-      'Dari 40 guru';
-
-    document.getElementById(
+    [
+      'sTotal',
+      'sMgmp',
+      'sPelatihan',
+      'sTendik',
+      'sGuruAktif',
       'sTendikAktif'
-    ).textContent = '-';
+    ].forEach(
+      id => {
+        document
+          .getElementById(id)
+          .textContent = '-';
+      }
+    );
 
-    document.getElementById(
-      'sTendikAktifDetail'
-    ).textContent =
-      'Dari 8 tenaga kependidikan';
+    document
+      .getElementById(
+        'sGuruAktifDetail'
+      )
+      .textContent =
+        'Dari 40 guru';
+
+    document
+      .getElementById(
+        'sTendikAktifDetail'
+      )
+      .textContent =
+        'Dari 8 tenaga kependidikan';
   }
 
-  function formatPercent(value){
+  function formatPercent(
+    value
+  ){
     const num =
-      Number(value || 0);
+      Number(
+        value ||
+        0
+      );
 
-    return Number.isInteger(num)
+    return Number.isInteger(
+      num
+    )
       ? String(num)
       : String(num)
-          .replace('.', ',');
+          .replace(
+            '.',
+            ','
+          );
   }
 
   window.addEventListener(
